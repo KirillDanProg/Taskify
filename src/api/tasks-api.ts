@@ -1,4 +1,5 @@
 import axios from "axios";
+import {TaskType} from "../state/reducers/taskReducer/tasks-reducer";
 
 const instance = axios.create({
     baseURL: "https://social-network.samuraijs.com/api/1.1",
@@ -13,5 +14,8 @@ const tasksAPI = {
     fetchTasks: (todolistID: string) => {
       return instance.get(`/todo-lists/${todolistID}/tasks`)
     },
+    addTask: (todolistId: string, task: TaskType) => {
+        return instance.post(`/todo-lists/${todolistId}`, {...task})
+    }
 
 }
