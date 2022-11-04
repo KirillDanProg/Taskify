@@ -1,37 +1,20 @@
-import {ThemeModeType} from "../../../App";
 import ModeNightIcon from "@mui/icons-material/ModeNight";
-import React, {FC} from "react";
+import React from "react";
 import LightModeIcon from "@mui/icons-material/LightMode";
-import {Button} from "../../../common/Button";
 
-type ThemePropsType = {
-    theme: ThemeModeType
-    setTheme: (value: ThemeModeType) => void
-}
-export const Sun: FC<ThemePropsType> = ({setTheme, theme}) => {
+export const Sun = () => {
 
-    const setLightMode = () => {
-        theme !== "light" && setTheme("light")
-    }
 
     return (
-        <Button  onClick={setLightMode}>
-            <LightModeIcon/>
-        </Button>
+            <LightModeIcon />
     )
 }
 
 
-export const Moon: FC<ThemePropsType> = ({setTheme, theme}) => {
-
-    const setLightMode = () => {
-        theme !== "dark" && setTheme("dark")
-    }
+export const Moon = () => {
 
     return (
-        <Button  onClick={setLightMode}>
-            <ModeNightIcon/>
-        </Button>
+            <ModeNightIcon />
     )
 
 }
