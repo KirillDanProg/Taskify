@@ -9,7 +9,7 @@ beforeEach(() => {
     initialState = [
         {
             id: "c2013730-de1d-4ba7-a714-e8fe36dc06e8",
-            title: "new todolist",
+            title: "new todo",
             addedDate: "2022-11-03T10:41:29.073",
             order: -3,
             filter: "all"
@@ -25,7 +25,7 @@ beforeEach(() => {
 
     emptyInitialState = []
 })
-test("todolist should be added", () => {
+test("todo should be added", () => {
 
     const action = {
         type: "ADD-TODOLISTS" as const,
@@ -44,7 +44,7 @@ test("todolist should be added", () => {
     expect(newState[0].id).toBe(action.todolist.id)
 })
 
-test("todolist should be removed", () => {
+test("todo should be removed", () => {
 
     const action = {
         type: "DELETE-TODOLISTS",
@@ -64,13 +64,13 @@ test("todolists should be uploaded", () => {
         todolists: [
             {
                 id: "3",
-                title: "new todolist",
+                title: "new todo",
                 addedDate: "2022-11-03T10:41:29.073",
                 order: -3,
             },
             {
                 id: "4",
-                title: "new todolist",
+                title: "new todo",
                 addedDate: "2022-11-03T10:41:29.073",
                 order: -3,
             }
