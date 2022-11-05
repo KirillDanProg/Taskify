@@ -1,22 +1,35 @@
 import axios from "axios";
+import {TodolistType} from "../state/reducers/todolistReducer/todolists-reducer";
 
 const instance = axios.create({
     baseURL: "https://social-network.samuraijs.com/api/1.1",
     withCredentials: true,
     headers: {
-        "API-KEY": "79813bfe-0555-4e37-9ff1-f0fc4c64bc6c"
+        "API-KEY": "1c9ef8d9-3ac4-4a66-8576-25dfbcc182dd"
     }
 })
 
-const todolistAPI = {
+export const todolistAPI = {
+
     fetchTodolists: () => {
-       return instance.get(" /todo-lists")
+        return instance.get<TodolistType[]>("/todo-lists")
     },
     addTodolist: (title: string) => {
         return instance.post(`/todo-lists/`, {title})
+    },
+    deleteTodolist: (todolistId: string) => {
+        return instance.delete<ResponseType<{}>>(`/todo-lists/${todolistId}`)
     }
 }
 
-const tasksAPI = {
+export type ResponseType<T> = {
+    resultCode: number
+    messages: string[]
+    data: T
+}
 
+export enum ResultCode {
+    OK,
+    FAILED,
+    CAPTCHA
 }
