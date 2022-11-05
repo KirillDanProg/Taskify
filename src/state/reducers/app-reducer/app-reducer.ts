@@ -2,8 +2,9 @@ export type AppInitialStateType = typeof initialState
 export type AppStatusType = "idle" | "succeeded" | "failed" | "loading"
 
 const initialState = {
-    status: "idle" as AppStatusType,
-    error: null as string | null
+    status: "loading" as AppStatusType,
+    error: null as string | null,
+    isInitialized: false
 }
 
 export const appReducer = (state: AppInitialStateType = initialState, action: AppActionsType): AppInitialStateType => {
@@ -12,6 +13,8 @@ export const appReducer = (state: AppInitialStateType = initialState, action: Ap
             return {...state, status: action.status}
         case CHANGE_APP_ERROR:
             return {...state, error: action.error}
+        case APP_INITIALIZING:
+            return {...state, isInitialized: action.value}
         default:
             return state
     }
@@ -20,10 +23,12 @@ export const appReducer = (state: AppInitialStateType = initialState, action: Ap
 // action type variables
 export const CHANGE_APP_STATUS = "CHANGE-APP-STATUS"
 export const CHANGE_APP_ERROR = "CHANGE-APP-ERROR"
+export const APP_INITIALIZING = "APP-INITIALIZING"
 
 //action types
 type AppActionsType = ReturnType<typeof setStatusAC>
     | ReturnType<typeof setErrorAC>
+    | ReturnType<typeof appInitializing>
 
 //action creators
 export const setStatusAC = (status: AppStatusType) => {
@@ -36,5 +41,12 @@ export const setErrorAC = (error: string) => {
     return {
         type: CHANGE_APP_ERROR,
         error
+    } as const
+}
+
+export const appInitializing = (value: boolean) => {
+    return {
+        type: APP_INITIALIZING,
+        value
     } as const
 }
