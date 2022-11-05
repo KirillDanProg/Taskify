@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import {ThemeModeType} from "../../../App";
+import {ThemeModeType} from "../../App";
 import {Moon, Sun} from "./SetTheme";
 import {Switch} from "@mui/material";
 import styles from "./DarkMode.module.scss"
@@ -19,9 +19,9 @@ export const DarkModeSwitch: FC<TodoPropsType> = ({theme, setTheme}) => {
             <Switch onChange={darkModeToggle}/>
             {
                 theme === "light" ?
-                <Moon setTheme={setTheme} theme={theme}/>
+                <Moon />
                 :
-                <Sun setTheme={setTheme} theme={theme}/>
+                <Sun />
 
             }
 

@@ -1,3 +1,13 @@
+@font-face {
+  font-family: "Roboto";
+  src: local('Roboto'),  url("./Roboto/Roboto-Regular.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Montserrat";
+  src: local('Montserrat'),  url("./Montserrat/Montserrat-Regular.ttf") format("truetype");
+}
+
+
 * {
   margin: 0;
   padding: 0;
@@ -5,5 +15,5 @@
 }
 
 body {
-  min-height: 100vh;
+  font-family: Montserrat, sans-serif;
 }
