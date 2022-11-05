@@ -1,0 +1,17 @@
+.removeIcon {
+  position: absolute;
+  right: -6px;
+  top: -6px;
+}
+
+.taskBox {
+  display: flex;
+  justify-content: space-between;
+  width: 70%;
+  margin: 4px 0;
+  border-bottom: 0.3px solid lightslategray;
+  & .title {
+    font-size: 20px;
+
+  }
+}
