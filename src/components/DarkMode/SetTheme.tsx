@@ -6,7 +6,7 @@ export const Sun = () => {
 
 
     return (
-            <LightModeIcon />
+            <LightModeIcon sx={{color:"#fff910"}}/>
     )
 }
 
@@ -14,7 +14,7 @@ export const Sun = () => {
 export const Moon = () => {
 
     return (
-            <ModeNightIcon />
+            <ModeNightIcon sx={{color:"#fff"}}/>
     )
 
 }
