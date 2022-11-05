@@ -1,3 +1,8 @@
+import {AppThunk} from "../../store";
+import {tasksAPI} from "../../../api/tasks-api";
+import {ResultCode} from "../../../api/todolists-api";
+import {setErrorAC, setStatusAC} from "../app-reducer/app-reducer";
+
 export type TasksInitialStateType = {
     [key: string]: TaskType[]
 }
@@ -15,20 +20,23 @@ export type TaskType = {
     addedDate: string
 }
 
-const initialState = {}
+const initialState = {} as TasksInitialStateType
 
 export const tasksReducer = (state: TasksInitialStateType = initialState, action: TaskActionsType): TasksInitialStateType => {
     switch (action.type) {
         case FETCH_TASKS:
             return {
+                ...state,
                 [action.todolistId]: [...action.tasks]
             }
         case ADD_TASK:
             return {
+                ...state,
                 [action.todolistId]: [{...action.task}, ...state[action.todolistId]]
             }
         case DELETE_TASK:
             return {
+                ...state,
                 [action.todolistId]: state[action.todolistId].filter(task => task.id !== action.taskId)
             }
         case UPDATE_TASK:
@@ -85,4 +93,45 @@ export const updateTaskAC = (todolistId: string, taskId: string, updatedTask: Ta
         taskId,
         updatedTask
     } as const
+}
+
+//thunks
+export const fetchTasksTC = (todolistId: string): AppThunk => async dispatch => {
+    const res = await tasksAPI.fetchTasks(todolistId)
+    dispatch(fetchTasksAC(todolistId, res.data.items))
+}
+export const addTaskTC = (todolistId: string, title: string): AppThunk => async dispatch => {
+    setStatusAC("loading")
+    try {
+        const res = await tasksAPI.addTask(todolistId, title)
+        if (res.data.resultCode === ResultCode.OK) {
+            const newTask = res.data.data.item
+            dispatch(addTaskAC(todolistId, newTask))
+        }
+    } catch (e) {
+
+    } finally {
+        setStatusAC("idle")
+    }
+
+}
+export const deleteTaskTC = (todolistId: string, taskId: string): AppThunk => async dispatch => {
+
+    try {
+        const res = await tasksAPI.deleteTask(todolistId, taskId)
+        if (res.data.resultCode === ResultCode.OK) {
+            dispatch(deleteTaskAC(todolistId, taskId))
+            dispatch(setStatusAC("succeeded"))
+        }
+    } catch (e) {
+        if (typeof e === "string") {
+            setErrorAC(e)
+        } else if (e instanceof Error) {
+            setErrorAC(e.message)
+        }
+        setStatusAC("failed")
+    } finally {
+        setStatusAC("idle")
+    }
+
 }
