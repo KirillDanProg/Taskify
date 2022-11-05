@@ -1,0 +1,15 @@
+.addForm{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    margin: 25px 0;
+    flex-wrap: wrap;
+    min-width: 280px;
+    .error {
+        width: 100%;
+        text-align: center;
+        color: rgb(255 0 0);
+        font-size: 18px;
+    }
+
+}
