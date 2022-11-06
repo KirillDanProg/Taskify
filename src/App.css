@@ -1,19 +1,50 @@
 @font-face {
-  font-family: "Roboto";
-  src: local('Roboto'),  url("./Roboto/Roboto-Regular.ttf") format("truetype");
+    font-family: "Roboto";
+    src: local('Roboto'), url("./Roboto/Roboto-Regular.ttf") format("truetype");
 }
+
 @font-face {
-  font-family: "Montserrat";
-  src: local('Montserrat'),  url("./Montserrat/Montserrat-Regular.ttf") format("truetype");
+    font-family: "Montserrat";
+    src: local('Montserrat'), url("./Montserrat/Montserrat-Regular.ttf") format("truetype");
 }
 
 
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body {
-  font-family: Montserrat, sans-serif;
+    overflow: scroll;
+    font-family: Montserrat, sans-serif;
+    min-height: 100vh;
+}
+
+.editableFieldBox {
+    display: flex;
+    width: 80%;
+  justify-content: space-between;
+}
+
+.mainContentBox {
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-justify-content: center;
+    -ms-flex-pack: start;
+    justify-content: center;
+    -webkit-align-content: stretch;
+    align-content: stretch;
+    -webkit-align-items: flex-start;
+    -ms-flex-align: start;
+    align-items: flex-start;
+    gap: 25px;
+    margin-top: 30px;
 }
