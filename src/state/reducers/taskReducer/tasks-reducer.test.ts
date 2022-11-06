@@ -1,6 +1,35 @@
-import {TasksInitialStateType, tasksReducer, TaskType} from "./tasks-reducer";
+import {TasksInitialStateType, tasksReducer} from "./tasks-reducer";
 
-let startState: TasksInitialStateType
+let startState: TasksInitialStateType = {
+    ["1"]: [
+        {
+            description: "string",
+            title: "task one",
+            completed: false,
+            status: 0,
+            priority: 1,
+            startDate: "01.02.02",
+            deadline: "string",
+            id: "1",
+            todoListId: "1",
+            order: 1,
+            addedDate: "01.01.01",
+        },
+        {
+            description: "string",
+            title: "task two",
+            completed: false,
+            status: 0,
+            priority: 1,
+            startDate: "01.02.02",
+            deadline: "string",
+            id: "2",
+            todoListId: "1",
+            order: 1,
+            addedDate: "01.01.01",
+        }
+    ]
+}
 
 beforeEach(() => {
     startState = {

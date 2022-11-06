@@ -1,5 +1,5 @@
-import axios from "axios";
 import {TodolistType} from "../state/reducers/todolistReducer/todolists-reducer";
+import axios from "axios";
 
 const instance = axios.create({
     baseURL: "https://social-network.samuraijs.com/api/1.1",
@@ -15,7 +15,7 @@ export const todolistAPI = {
         return instance.get<TodolistType[]>("/todo-lists")
     },
     addTodolist: (title: string) => {
-        return instance.post(`/todo-lists/`, {title})
+        return instance.post<ResponseType<{ item: TodolistType }>>(`/todo-lists/`, {title})
     },
     deleteTodolist: (todolistId: string) => {
         return instance.delete<ResponseType<{}>>(`/todo-lists/${todolistId}`)

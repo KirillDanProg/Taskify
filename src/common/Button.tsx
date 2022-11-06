@@ -1,8 +1,18 @@
 import styled from "styled-components";
 
-export const Button = styled.button`
+export const MyButton = styled.button`
   all: unset;
   font-weight: bold;
-  font-size: 18px;
-  color: ${(props) => props.theme.mainColor};
-`
+  font-size: 14px;
+  color: ${props => props.theme.mainColor};
+  &:active {
+    color: initial;
+    text-decoration: none;
+    background-color: #fff;
+    transition: 0.4s;
+    padding: 10px 15px;
+    border-radius: 10px;
+  }
+`;
+
+

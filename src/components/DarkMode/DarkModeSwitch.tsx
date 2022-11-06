@@ -19,9 +19,9 @@ export const DarkModeSwitch: FC<TodoPropsType> = ({theme, setTheme}) => {
             <Switch onChange={darkModeToggle}/>
             {
                 theme === "light" ?
-                <Moon />
-                :
-                <Sun />
+                    <Moon/>
+                    :
+                    <Sun/>
 
             }
 

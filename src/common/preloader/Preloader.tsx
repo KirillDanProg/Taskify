@@ -9,6 +9,7 @@ const PreloaderBox = styled.div`
   bottom: 0;
   height: 100vh;
   background-color: ${props => props.theme.header};
+  z-index: 12;
 `
 export const Preloader = () => {
     return (

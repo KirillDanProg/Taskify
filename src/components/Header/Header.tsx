@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from "./Header.module.scss"
 import styled from "styled-components";
+import {LoginBtn} from "../Login/LoginBtn";
 
 const HeaderBox = styled.div`
   background-color: ${props => props.theme.header};
@@ -16,25 +17,10 @@ const HeaderBox = styled.div`
 const Header = (props: { children: JSX.Element }) => {
     return (
         <HeaderBox className={styles.header}>
-            {/*<Logo />*/}
-            <h2>PWA TodoList</h2>
-            {/*<Login/>*/}
+            <LoginBtn/>
             {props.children}
         </HeaderBox>
     );
 };
-const Logo = () => {
-    return (
-        <div className={styles.logo}>
-            LOGO
-        </div>
-    )
-}
-const Login = () => {
-    return (
-        <div>
-            LOGIN
-        </div>
-    )
-}
+
 export default Header;

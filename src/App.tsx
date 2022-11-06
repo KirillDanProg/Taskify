@@ -1,45 +1,44 @@
 import React, {useEffect, useState} from 'react';
 import {ThemeProvider} from "styled-components";
 import "./App.css"
-import {DarkModeSwitch} from './components/DarkMode/DarkModeSwitch';
 import {DarkTheme, LightTheme} from "./components/DarkMode/Themes";
-import {TodoAppWrapper} from "./components/Content/TodoAppWrapper";
-import {MainContent} from "./components/Content/MainContent";
-import {Container} from "./common/Container";
-import Header from "./components/Header/Header";
 import {useAppDispatch, useAppSelector} from "./hooks/reduxHooks";
-import {Preloader} from "./common/preloader/Preloader";
-import {fetchTodolists} from "./state/reducers/todolistReducer/todolists-reducer";
+import {TodoApp} from "./components/TodoApp";
+import {  useNavigate} from "react-router-dom";
+import {initializeAppTC} from "./state/reducers/app-reducer/app-reducer";
+import CustomizedSnackbars from "./errorHandler/snackbar";
 
 export type ThemeModeType = "light" | "dark"
 
 function App() {
-    const status = useAppSelector(state => state.app.status)
+    const isAuth = useAppSelector(state => state.auth.email)
+
     const dispatch = useAppDispatch()
+    const navigate = useNavigate()
+
     const [theme, setTheme] = useState<ThemeModeType>("light")
     const isDarkTheme = theme === "dark"
 
     useEffect(() => {
-        dispatch(fetchTodolists())
+       dispatch(initializeAppTC())
+        if(!isAuth) {
+            navigate("/login")
+        }
     }, [])
+
+    useEffect(() => {
+        if(!isAuth) {
+            navigate("/login")
+        } else {
+            navigate("/")
+        }
+
+    }, [isAuth])
 
     return (
         <ThemeProvider theme={isDarkTheme ? DarkTheme : LightTheme}>
-            {
-                status === "loading" ?
-                    <Preloader/>
-                    :
-                    <TodoAppWrapper>
-                        <Header>
-                            <DarkModeSwitch setTheme={setTheme} theme={theme}/>
-                        </Header>
-                        <Container>
-                            <MainContent/>
-                        </Container>
-
-                    </TodoAppWrapper>
-            }
-
+            <CustomizedSnackbars/>
+            <TodoApp theme={theme} setTheme={setTheme}/>
         </ThemeProvider>
     );
 }

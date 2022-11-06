@@ -1,10 +1,14 @@
+import {AppThunk} from "../../store";
+import {fetchTodolists} from "../todolistReducer/todolists-reducer";
+import {authMe} from "../auth-reducer/auth-reduser";
+
 export type AppInitialStateType = typeof initialState
 export type AppStatusType = "idle" | "succeeded" | "failed" | "loading"
 
 const initialState = {
     status: "loading" as AppStatusType,
     error: null as string | null,
-    isInitialized: false
+    isInitialized: false,
 }
 
 export const appReducer = (state: AppInitialStateType = initialState, action: AppActionsType): AppInitialStateType => {
@@ -29,7 +33,6 @@ export const APP_INITIALIZING = "APP-INITIALIZING"
 type AppActionsType = ReturnType<typeof setStatusAC>
     | ReturnType<typeof setErrorAC>
     | ReturnType<typeof appInitializing>
-
 //action creators
 export const setStatusAC = (status: AppStatusType) => {
     return {
@@ -37,7 +40,7 @@ export const setStatusAC = (status: AppStatusType) => {
         status
     } as const
 }
-export const setErrorAC = (error: string) => {
+export const setErrorAC = (error: string | null) => {
     return {
         type: CHANGE_APP_ERROR,
         error
@@ -49,4 +52,11 @@ export const appInitializing = (value: boolean) => {
         type: APP_INITIALIZING,
         value
     } as const
+}
+
+//thunks
+
+export const initializeAppTC = (): AppThunk => async dispatch => {
+    dispatch(fetchTodolists())
+    dispatch(authMe())
 }

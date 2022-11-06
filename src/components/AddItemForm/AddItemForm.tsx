@@ -1,6 +1,6 @@
 import React, {FC, useState} from 'react';
 import {Form, Formik, FormikHelpers} from "formik";
-import {Button} from "../../common/Button";
+import {MyButton} from "../../common/Button";
 import TextField from '@mui/material/TextField';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import styles from "./AddItemForm.module.scss"
@@ -21,8 +21,9 @@ export const AddItemForm: FC<AddItemFormType> = ({callback, placeholder}) => {
            error && setError(false)
         }
     }
-    const onSubmit = (values: ErrorsType, {setSubmitting}: FormikHelpers<ErrorsType>) => {
+    const onSubmit = (values: ErrorsType, {setSubmitting, resetForm}: FormikHelpers<ErrorsType>) => {
         callback(values.title)
+        resetForm()
         setSubmitting(false);
     }
     return (
@@ -44,10 +45,13 @@ export const AddItemForm: FC<AddItemFormType> = ({callback, placeholder}) => {
                                    backgroundColor: "#fff",
                                    borderRadius: "5px"
                                }}
+                               InputLabelProps={{
+                                   style: { color: '#909090d4', paddingLeft: "10%" },
+                               }}
                     />
-                    <Button type="submit" disabled={formik.isSubmitting}>
+                    <MyButton type="submit" disabled={formik.isSubmitting}>
                         <AddBoxIcon fontSize={"medium"}/>
-                    </Button>
+                    </MyButton>
                 </Form>
             )}
         </Formik>

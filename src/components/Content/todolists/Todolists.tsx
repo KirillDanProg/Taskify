@@ -12,7 +12,7 @@ export const Todolists = () => {
     })
 
     return (
-        <div>
+        <div className={"mainContentBox"}>
             {mappedTodolists}
         </div>
     );

@@ -5,12 +5,12 @@ export const LightTheme = {
     textColor: "#fff",
     secColor: "#fefefe",
     primary: "#fff",
-    header:"rgba(84,85,255,0.89)",
+    header:"rgba(84,85,255,1)",
     taskBG: "#f2f2f2",
     icon: "#fff"
 }
 export const DarkTheme = {
-    background: "#000",
+    background: "#0a0e17c9",
     mainColor: "#055d88",
     textColor: "#000",
     secColor: "#d4d4d4",
