@@ -1,6 +1,23 @@
-import { DomainTodolistType, todolistReducer} from "./todolists-reducer";
+import {DomainTodolistType, todolistReducer} from "./todolists-reducer";
 
-let initialState: DomainTodolistType[]
+let initialState: DomainTodolistType[] = [
+    {
+        id: "c2013730-de1d-4ba7-a714-e8fe36dc06e8",
+        title: "new todo",
+        addedDate: "2022-11-03T10:41:29.073",
+        order: -3,
+        filter: "all",
+        entityStatus: "idle"
+    },
+    {
+        id: "c2013730-de1d-4ba7-a714-e8fe36dc06e9",
+        title: "new todolist2",
+        addedDate: "2022-11-03T10:41:29.074",
+        order: -4,
+        filter: "all",
+        entityStatus: "idle"
+    },
+]
 let emptyInitialState: DomainTodolistType[]
 
 
@@ -12,19 +29,22 @@ beforeEach(() => {
             title: "new todo",
             addedDate: "2022-11-03T10:41:29.073",
             order: -3,
-            filter: "all"
+            filter: "all",
+            entityStatus: "idle"
         },
         {
             id: "c2013730-de1d-4ba7-a714-e8fe36dc06e9",
             title: "new todolist2",
             addedDate: "2022-11-03T10:41:29.074",
             order: -4,
-            filter: "all"
+            filter: "all",
+            entityStatus: "idle"
         },
     ]
 
     emptyInitialState = []
 })
+
 test("todo should be added", () => {
 
     const action = {
