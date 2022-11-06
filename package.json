@@ -27,17 +27,20 @@
     "redux": "^4.2.0",
     "redux-thunk": "^2.4.2",
     "sass": "^1.56.0",
+    "serve": "^14.0.1",
     "styled-components": "^5.3.6",
     "typescript": "^4.4.2",
     "web-vitals": "^2.1.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+
+    "dev": "react-scripts start",
+    "start": "serve -s build",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "heroku-postbuild": "npm run build"
+
   },
   "eslintConfig": {
     "extends": [
