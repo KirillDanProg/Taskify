@@ -1,1 +1,1 @@
-"web: node scripts/app.js"
+web: node app.js
