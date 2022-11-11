@@ -1,0 +1,13 @@
+.addForm{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    .error {
+        width: 100%;
+        text-align: center;
+        color: rgb(255 0 0);
+        font-size: 18px;
+    }
+
+}
