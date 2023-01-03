@@ -1,28 +1,38 @@
 import React, {FC, useState} from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
-import styles from "../Todo.module.scss"
-import {useAppDispatch} from "../../../../../hooks/reduxHooks";
+import styles from "../../todos/todolists/todo/Todo.module.scss"
+import {useAppDispatch} from "../../../hooks/reduxHooks";
 import {Skeleton} from "@mui/material";
-import {EditableField} from "../../../../EditableField/EditableField";
-import {deleteTaskTC, TaskType, updateTaskTC} from "../../../../../state/reducers/taskReducer/tasks-reducer";
-import {AppStatusType} from "../../../../../state/reducers/app-reducer/app-reducer";
+import {EditableField} from "../../../components/EditableField/EditableField";
+import {TaskType, updateTaskTC} from "../taskSlice";
+import {useDeleteTaskMutation} from "../tasksApi";
+import {StatusType} from "../../app/appSlice";
 
-type TaskPropsType = TaskType & { entityStatus: AppStatusType }
+type TaskPropsType = TaskType & { entityStatus: StatusType }
 
 export const Task: FC<TaskPropsType> = (props) => {
+    const [deleteTask] = useDeleteTaskMutation();
 
     const taskStatus = props.entityStatus
     const dispatch = useAppDispatch()
     const [isEdit, setEdit] = useState(false)
 
-    const deleteTaskHandler = () => {
-        dispatch(deleteTaskTC(props.todoListId, props.id))
+    const deleteTaskHandler = async () => {
+        await deleteTask({todolistId: props.todoListId, taskId: props.id})
     }
 
     const changeValueHandler = (newValue: string) => {
+        //todo: update task
+
         setEdit(false)
-        dispatch(updateTaskTC(props.todoListId, props.id, {title: newValue}))
+        const data = {
+            todolistId: props.todoListId,
+            taskId: props.id,
+            model: {title: newValue}
+        }
+        dispatch(updateTaskTC(data))
     }
+
     return (
         taskStatus === "loading" ?
             <Skeleton variant="rectangular" className={styles.taskBox}/>
@@ -34,7 +44,7 @@ export const Task: FC<TaskPropsType> = (props) => {
                     </EditableField>
                 }
                 <div>
-                    <DeleteIcon sx={{color: "#9700006b"}}
+                    <DeleteIcon sx={{color: "#9700006b", cursor: "pointer"}}
                                 onClick={deleteTaskHandler}
                     />
                 </div>

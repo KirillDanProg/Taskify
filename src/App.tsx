@@ -2,31 +2,26 @@ import React, {useEffect} from 'react';
 import {ThemeProvider} from "styled-components";
 import "./App.css"
 import {themes} from "./components/DarkMode/Themes";
-import {useAppDispatch, useAppSelector} from "./hooks/reduxHooks";
+import { useAppSelector} from "./hooks/reduxHooks";
 import {TodoApp} from "./components/TodoApp";
-import {  useNavigate} from "react-router-dom";
-import {initializeAppTC} from "./state/reducers/app-reducer/app-reducer";
-import CustomizedSnackbars from "./common/handlers/errorHandler/snackbar";
-import {getAppThemeTC} from "./state/reducers/theme-reducer/theme-reducer";
+import {useNavigate} from "react-router-dom";
+import CustomizedSnackbars from "./common/handlers/Snackbar";
+import {useMeQuery} from "./features/auth/authApi";
+import {selectCurrentTheme, selectIsAuth} from "./features/selectors";
 
 export type ThemeModeType = "light" | "dark"
 
-function App() {
-    const isAuth = useAppSelector(state => state.auth.email)
+export const App = () => {
+    const isAuth = useAppSelector(selectIsAuth)
 
-    const dispatch = useAppDispatch()
     const navigate = useNavigate()
 
-    const theme = useAppSelector(state => state.theme.theme)
+    const {} = useMeQuery()
+    const theme = useAppSelector(selectCurrentTheme)
 
 
     useEffect(() => {
-       dispatch(initializeAppTC())
-        dispatch(getAppThemeTC())
-    }, [])
-
-    useEffect(() => {
-        if(!isAuth) {
+        if (!isAuth) {
             navigate("/login")
         } else {
             navigate("/")
@@ -37,9 +32,8 @@ function App() {
     return (
         <ThemeProvider theme={themes[theme]}>
             <CustomizedSnackbars/>
-            <TodoApp theme={theme} />
+            <TodoApp theme={theme}/>
         </ThemeProvider>
     );
 }
 
-export default App;

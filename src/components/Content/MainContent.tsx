@@ -1,19 +1,19 @@
 import React from 'react';
 import styled from "styled-components";
 import {AddItemForm} from "../AddItemForm/AddItemForm";
-import {Todolists} from "./todolists/Todolists";
-import {useAppDispatch} from "../../hooks/reduxHooks";
-import {addTodolistTC} from "../../state/reducers/todolistReducer/todolists-reducer";
+import {Todolists} from "../../features/todos/Todolists";
+import {useAddTodolistMutation} from "../../features/todos/todoApi";
 
 const Wrap = styled.div`
   color: ${(props) => props.theme.mainColor};
 `
 
-export const MainContent = (props: any) => {
-    const dispatch = useAppDispatch()
+export const MainContent = () => {
+
+    const [addTodo] = useAddTodolistMutation()
 
     const addTodolistHandler = (title: string) => {
-        dispatch(addTodolistTC(title))
+        addTodo(title)
     }
 
     return (

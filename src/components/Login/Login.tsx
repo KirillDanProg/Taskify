@@ -4,9 +4,10 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import * as yup from "yup"
 import styles from "./Login.module.scss"
-import {useAppDispatch, useAppSelector} from "../../hooks/reduxHooks";
+import { useAppSelector} from "../../hooks/reduxHooks";
 import styled from "styled-components";
-import {loginTC} from "../../state/reducers/auth-reducer/auth-reduser";
+import {useLoginMutation} from "../../features/auth/authApi";
+import {selectCaptchaUrl} from "../../features/selectors";
 
 const LoginTipBox = styled.div`
   color: ${props => props.theme.textColor};
@@ -27,8 +28,9 @@ const validationSchema = yup.object({
 });
 
 export const Login = () => {
-    const dispatch = useAppDispatch()
-    const captchaUrl = useAppSelector(state => state.auth.captchaUrl)
+    const captchaUrl = useAppSelector(selectCaptchaUrl)
+
+    const [login] = useLoginMutation()
 
     const formik = useFormik({
         initialValues: {
@@ -38,10 +40,7 @@ export const Login = () => {
         },
         validationSchema: validationSchema,
         onSubmit: (values) => {
-            const email = values.email.trim()
-            const password = values.password.trim()
-            const captcha = values.captcha
-            dispatch(loginTC({email, password, captcha}))
+            login(values)
         },
     });
 

@@ -1,15 +1,16 @@
 import React from "react";
-import {useAppDispatch, useAppSelector} from "../../hooks/reduxHooks";
-import {logoutTC} from "../../state/reducers/auth-reducer/auth-reduser";
+import { useAppSelector} from "../../hooks/reduxHooks";
 import {MyButton} from "../../common/Button";
+import {useLogoutMutation} from "../../features/auth/authApi";
 
 export const LoginBtn = () => {
     const isAuth = useAppSelector(state => state.auth.login)
-    const dispatch = useAppDispatch()
+    const [logout] = useLogoutMutation()
 
     const logoutHandler = () => {
-        dispatch(logoutTC())
+        logout()
     }
+
     return (
         <>
             {

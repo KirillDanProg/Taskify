@@ -1,6 +1,6 @@
 import axios from "axios";
-import {TaskType} from "../state/reducers/taskReducer/tasks-reducer";
 import {ResponseType} from "./todolists-api";
+import {TaskType} from "../features/tasks/taskSlice";
 
 const instance = axios.create({
     baseURL: "https://social-network.samuraijs.com/api/1.1",

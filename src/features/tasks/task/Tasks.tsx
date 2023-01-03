@@ -1,11 +1,11 @@
 import React, {FC} from 'react';
 import {Task} from "./Task";
-import {TaskType} from "../../../../../state/reducers/taskReducer/tasks-reducer";
-import {AppStatusType} from "../../../../../state/reducers/app-reducer/app-reducer";
+import {TaskType} from "../taskSlice";
+import {StatusType} from "../../app/appSlice";
 
 type TasksPropsType = {
     tasks: TaskType[]
-    status: AppStatusType
+    status: StatusType
 }
 export const Tasks:FC<TasksPropsType> = ({tasks, status}) => {
     return (

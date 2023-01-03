@@ -1,6 +1,7 @@
-import {DomainTodolistType, todolistReducer} from "./todolists-reducer";
+import {FilterValuesType, TodolistType, todoSlice} from "../../../features/todos/todoSlice";
+import {StatusType} from "../../../features/app/appSlice";
 
-let initialState: DomainTodolistType[] = [
+let initialState: TodolistType[] = [
     {
         id: "c2013730-de1d-4ba7-a714-e8fe36dc06e8",
         title: "new todo",
@@ -18,7 +19,7 @@ let initialState: DomainTodolistType[] = [
         entityStatus: "idle"
     },
 ]
-let emptyInitialState: DomainTodolistType[]
+let emptyInitialState: TodolistType[]
 
 
 beforeEach(() => {
@@ -55,10 +56,11 @@ test("todo should be added", () => {
             title: "new todolist3",
             addedDate: "2022-11-03T10:41:29.075",
             order: -5,
-            filter: "all"
+            filter: "all" as FilterValuesType,
+            entityStatus: "idle" as StatusType
         }
     }
-    const newState = todolistReducer(initialState, action)
+    const newState = todoSlice.reducer(initialState, action)
 
     expect(newState.length).toBe(3)
     expect(newState[0].id).toBe(action.todolist.id)
@@ -71,7 +73,7 @@ test("todo should be removed", () => {
         todolistId: "c2013730-de1d-4ba7-a714-e8fe36dc06e9"
     } as const
 
-    const updatedState = todolistReducer(initialState, action)
+    const updatedState = todoSlice.reducer(initialState, action)
 
     expect(updatedState.length).toBe(1)
     expect(initialState.every(el => el.id !== action.todolistId)).toBeFalsy()
@@ -87,17 +89,21 @@ test("todolists should be uploaded", () => {
                 title: "new todo",
                 addedDate: "2022-11-03T10:41:29.073",
                 order: -3,
+                filter: "all" as FilterValuesType,
+                entityStatus: "idle" as StatusType
             },
             {
                 id: "4",
                 title: "new todo",
                 addedDate: "2022-11-03T10:41:29.073",
                 order: -3,
+                filter: "all" as FilterValuesType,
+                entityStatus: "idle" as StatusType
             }
         ]
     }
 
-    const newState = todolistReducer(emptyInitialState, action)
+    const newState = todoSlice.reducer(emptyInitialState, action)
 
     expect(newState.length).toBe(2)
 })

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
 import Header from "./Header/Header";
 import {DarkModeSwitch} from "./DarkMode/DarkModeSwitch";
 import {MainContent} from "./Content/MainContent";
@@ -9,10 +9,15 @@ import {Login} from "./Login/Login";
 import {useAppSelector} from "../hooks/reduxHooks";
 import {Preloader} from "../common/preloader/Preloader";
 import {Container} from "../common/Container";
+import {selectCurrentStatus} from "../features/selectors";
 
 export const TodoApp = (props: { theme: ThemeModeType }) => {
 
-    const status = useAppSelector(state => state.app.status)
+    const firstMount = useRef(true)
+
+    const status = useAppSelector(selectCurrentStatus)
+
+    useEffect(() => { firstMount.current = false }, [])
 
     return (
         <TodoAppWrapper>
@@ -20,10 +25,9 @@ export const TodoApp = (props: { theme: ThemeModeType }) => {
                 <DarkModeSwitch theme={props.theme}/>
             </Header>
             {
-                status === "loading" ?
-                    <Preloader/>
-                    :
-                    <Routes>
+                status === "loading" && firstMount.current
+                    ? <Preloader/>
+                    : <Routes>
                         <Route path={"/"} element={<Container>
                             <MainContent/>
                         </Container>}/>

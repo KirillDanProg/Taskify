@@ -1,21 +1,25 @@
-import {AnyAction, applyMiddleware, combineReducers} from "redux";
-import {legacy_createStore as createStore} from 'redux'
-import {tasksReducer} from "./reducers/taskReducer/tasks-reducer";
-import {todolistReducer} from "./reducers/todolistReducer/todolists-reducer";
-import {appReducer} from "./reducers/app-reducer/app-reducer";
-import {authReducer} from "./reducers/auth-reducer/auth-reduser";
-import {themeReducer} from "./reducers/theme-reducer/theme-reducer";
-import thunk, {ThunkAction, ThunkDispatch} from "redux-thunk";
+import {AnyAction, combineReducers} from "redux";
+import {ThunkAction, ThunkDispatch} from "redux-thunk";
+import {configureStore} from "@reduxjs/toolkit";
+import {apiSlice} from "../features/api/apiSlice";
+import {taskSlice} from "../features/tasks/taskSlice";
+import {todoSlice} from "../features/todos/todoSlice";
+import {authSlice} from "../features/auth/authSlice";
+import {appSlice} from "../features/app/appSlice";
 
 const rootReducer = combineReducers({
-    todolist: todolistReducer,
-    tasks: tasksReducer,
-    app: appReducer,
-    auth: authReducer,
-    theme: themeReducer
+    todolist: todoSlice.reducer,
+    tasks: taskSlice.reducer,
+    app: appSlice.reducer,
+    auth: authSlice.reducer,
+    [apiSlice.reducerPath]: apiSlice.reducer
 })
 
-export const store = createStore(rootReducer, applyMiddleware(thunk))
+export const store = configureStore({
+    reducer: rootReducer,
+    middleware: getDefaultMiddleware =>
+        getDefaultMiddleware().concat(apiSlice.middleware)
+})
 
 export type RootAppType = ReturnType<typeof store.getState>
 export type AppDispatch = ThunkDispatch<RootAppType, unknown, AnyAction>
@@ -25,6 +29,3 @@ export type AppThunk<ReturnType = any> = ThunkAction<
     RootAppType,
     unknown,
     AnyAction>
-
-// @ts-ignore
-window.store = store
