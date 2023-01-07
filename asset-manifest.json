@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/KirillDanProg/pwa-todolist.git/static/css/main.a2bf80d1.css",
+    "main.js": "/KirillDanProg/pwa-todolist.git/static/js/main.a1d24cb9.js",
+    "static/media/Roboto-Regular.ttf": "/KirillDanProg/pwa-todolist.git/static/media/Roboto-Regular.fc2b5060f7accec5cf74.ttf",
+    "service-worker.js": "/KirillDanProg/pwa-todolist.git/service-worker.js",
+    "index.html": "/KirillDanProg/pwa-todolist.git/index.html",
+    "static/media/Montserrat-Regular.ttf": "/KirillDanProg/pwa-todolist.git/static/media/Montserrat-Regular.31d6cfe0d16ae931b73c.ttf",
+    "main.a2bf80d1.css.map": "/KirillDanProg/pwa-todolist.git/static/css/main.a2bf80d1.css.map",
+    "main.a1d24cb9.js.map": "/KirillDanProg/pwa-todolist.git/static/js/main.a1d24cb9.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.a2bf80d1.css",
+    "static/js/main.a1d24cb9.js"
+  ]
+}
