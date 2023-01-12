@@ -23,11 +23,18 @@ export const authApi = apiSlice.injectEndpoints({
                 url: `auth/me`,
             }),
             providesTags: ["Auth"]
+        }),
+        getCaptcha: build.query<{url: string }, void>({
+            query: () => ({
+                url: `/security/get-captcha-url`
+            })
+
         })
+
     })
 })
 
-export const {useLoginMutation, useLogoutMutation, useMeQuery} = authApi
+export const {useLoginMutation, useLogoutMutation, useMeQuery, useLazyGetCaptchaQuery} = authApi
 
 type AuthResponseType = {
     data: {

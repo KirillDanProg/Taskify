@@ -4,15 +4,17 @@ const initialState = {
     error: null,
     status: "idle" as StatusType,
     isInitialized: false,
-    theme: "dark" as ThemeType
+    theme: "light" as ThemeType
 }
-
 export const appSlice = createSlice({
     name: "app",
     initialState,
     reducers: {
         themeToggle: (state) => {
             state.theme = state.theme === "dark" ? "light" : "dark"
+        },
+        resetError: (state) => {
+            state.error = null
         }
     },
     extraReducers: (builder) => {
@@ -28,7 +30,6 @@ export const appSlice = createSlice({
                 (action): action is GenericAsyncThunk => action.type.endsWith("/fulfilled"),
                 (state, {payload}) => {
                     if(payload.messages?.length > 0) {
-                        debugger
                         state.error = payload.messages[0]
                         state.status = "failed"
                     } else {
@@ -48,7 +49,8 @@ export const appSlice = createSlice({
 
 })
 
-export const {themeToggle} = appSlice.actions
+export const {themeToggle, resetError} = appSlice.actions
+
 export type GenericAsyncThunk = AsyncThunk<unknown, unknown, any>
 
 export type StatusType = "idle" | "succeeded" | "failed" | "loading"

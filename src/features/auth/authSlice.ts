@@ -5,7 +5,7 @@ const initialState = {
     email: "",
     login: "",
     id: null as number | null,
-    captchaUrl: ""
+    captchaUrl: "",
 }
 
 export const authSlice = createSlice({
@@ -13,15 +13,21 @@ export const authSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: (builder) => {
-        builder.addMatcher(authApi.endpoints.me.matchFulfilled, (state, {payload}) => {
-            state.email = payload.data.email
-            state.login = payload.data.login
-            state.id = payload.data.id
-        })
+        builder
+            .addMatcher(authApi.endpoints.me.matchFulfilled, (state, {payload}) => {
+                if (payload.messages.length === 0) {
+                    state.email = payload.data.email
+                    state.login = payload.data.login
+                    state.id = payload.data.id
+                } else {
+                    state.id = null
+                }
+            })
+            .addMatcher(authApi.endpoints.getCaptcha.matchFulfilled, (state, {payload}) => {
+                state.captchaUrl = payload.url
+            })
     }
 })
-
-export type InitialStateType = typeof initialState
 
 export type LoginDataType = {
     email: string

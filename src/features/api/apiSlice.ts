@@ -8,7 +8,7 @@ export const apiSlice = createApi({
         baseUrl: "https://social-network.samuraijs.com/api/1.1",
         credentials: "include",
         headers: {
-            "API-KEY": "1c9ef8d9-3ac4-4a66-8576-25dfbcc182dd"
+            "API-KEY": "32d98f46-bc75-48b0-80ba-428435a33c43"
         }
     }),
     endpoints: (build) => ({}),

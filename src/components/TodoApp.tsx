@@ -4,36 +4,41 @@ import {DarkModeSwitch} from "./DarkMode/DarkModeSwitch";
 import {MainContent} from "./Content/MainContent";
 import {ThemeModeType} from "../App";
 import {TodoAppWrapper} from "./Content/TodoAppWrapper";
-import {Route, Routes} from "react-router-dom";
+import {Route, Routes, useNavigate} from "react-router-dom";
 import {Login} from "./Login/Login";
 import {useAppSelector} from "../hooks/reduxHooks";
-import {Preloader} from "../common/preloader/Preloader";
 import {Container} from "../common/Container";
-import {selectCurrentStatus} from "../features/selectors";
+import {selectIsAuth} from "../features/selectors";
 
 export const TodoApp = (props: { theme: ThemeModeType }) => {
 
     const firstMount = useRef(true)
+    const isAuth = useAppSelector(selectIsAuth)
+    const navigate = useNavigate()
 
-    const status = useAppSelector(selectCurrentStatus)
+    useEffect(() => {
+        firstMount.current = false
+    }, [])
 
-    useEffect(() => { firstMount.current = false }, [])
+    useEffect(() => {
+        if (!isAuth) {
+            navigate("/login")
+        } else {
+            navigate("/")
+        }
+    }, [isAuth])
 
     return (
         <TodoAppWrapper>
             <Header>
                 <DarkModeSwitch theme={props.theme}/>
             </Header>
-            {
-                status === "loading" && firstMount.current
-                    ? <Preloader/>
-                    : <Routes>
-                        <Route path={"/"} element={<Container>
-                            <MainContent/>
-                        </Container>}/>
-                        <Route path={"/login"} element={<Login/>}/>
-                    </Routes>
-            }
+            <Routes>
+                <Route path={"/"} element={<Container>
+                    <MainContent/>
+                </Container>}/>
+                <Route path={"/login"} element={<Login/>}/>
+            </Routes>
         </TodoAppWrapper>
     );
 };

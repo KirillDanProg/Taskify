@@ -1,10 +1,11 @@
 import React from "react";
 import { useAppSelector} from "../../hooks/reduxHooks";
-import {MyButton} from "../../common/Button";
+import {StyledButton} from "../../common/StyledButton";
 import {useLogoutMutation} from "../../features/auth/authApi";
+import {selectIsAuth} from "../../features/selectors";
 
 export const LoginBtn = () => {
-    const isAuth = useAppSelector(state => state.auth.login)
+    const isAuth = useAppSelector(selectIsAuth)
     const [logout] = useLogoutMutation()
 
     const logoutHandler = () => {
@@ -15,7 +16,7 @@ export const LoginBtn = () => {
         <>
             {
                 isAuth ?
-                    <MyButton  style={{color: "white"}}  onClick={logoutHandler}>LOGOUT</MyButton>
+                    <StyledButton style={{color: "white"}} onClick={logoutHandler}>LOGOUT</StyledButton>
                     :
                     <h2>PWA TodoList</h2>
             }

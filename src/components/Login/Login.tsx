@@ -1,12 +1,12 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useFormik} from 'formik';
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import * as yup from "yup"
 import styles from "./Login.module.scss"
-import { useAppSelector} from "../../hooks/reduxHooks";
+import {useAppSelector} from "../../hooks/reduxHooks";
 import styled from "styled-components";
-import {useLoginMutation} from "../../features/auth/authApi";
+import {useLazyGetCaptchaQuery, useLoginMutation} from "../../features/auth/authApi";
 import {selectCaptchaUrl} from "../../features/selectors";
 
 const LoginTipBox = styled.div`
@@ -30,7 +30,16 @@ const validationSchema = yup.object({
 export const Login = () => {
     const captchaUrl = useAppSelector(selectCaptchaUrl)
 
-    const [login] = useLoginMutation()
+    const [getCaptcha] = useLazyGetCaptchaQuery()
+    const [login, {data}] = useLoginMutation()
+    const captchaError = data?.resultCode === 10
+    useEffect(() => {
+        if (captchaError) {
+            debugger
+
+            getCaptcha()
+        }
+    }, [captchaError])
 
     const formik = useFormik({
         initialValues: {
@@ -49,8 +58,8 @@ export const Login = () => {
             <form onSubmit={formik.handleSubmit}>
                 <LoginTipBox>
                     <div>TEST LOGIN DATA</div>
-                    <div>Email: free@samuraijs.com</div>
-                    <div>Password: free</div>
+                    <div>Email: testEmailReact@gmail.com</div>
+                    <div>Password: test123!!!</div>
                 </LoginTipBox>
                 <TextField
                     required

@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {FC, useState} from 'react';
 import {AddItemForm} from "components/AddItemForm/AddItemForm";
 import {EditableField} from "components/EditableField/EditableField";
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
@@ -14,7 +14,6 @@ import {
 } from "../../todoApi";
 import {TodolistType} from "../../todoSlice";
 import {useAddTaskMutation, useFetchTasksQuery} from "../../../tasks/tasksApi";
-import {Preloader} from "common/preloader/Preloader";
 import {useAppSelector} from "hooks/reduxHooks";
 import {selectCurrentStatus} from "../../../selectors";
 import {Tasks} from "features/tasks/task/Tasks";
@@ -29,7 +28,7 @@ const TodoBox = styled.div`
   background-color: ${props => props.theme.taskBG};
   border-radius: 20px;
   box-shadow: 2px 2px 4px lightgray;
-  
+
   & h3 {
     text-align: center;
     width: 100%;
@@ -41,6 +40,12 @@ const TodoBox = styled.div`
 `
 
 export const Todo: FC<TodolistType> = (props) => {
+    const [expended, setExpended] = useState(false)
+
+    const expandHandler = () => {
+        setExpended(!expended)
+    }
+
     const [removeTodolist] = useDeleteTodolistMutation()
     const [updateTodoTitle] = useUpdateTodoTitleMutation()
 
@@ -65,15 +70,15 @@ export const Todo: FC<TodolistType> = (props) => {
     }
 
     return (
-        <TodoBox >
+        <TodoBox>
             {
                 status === "loading"
-                    ? <Preloader/>
-                    : <Accordion sx={{all: "unset"}}>
+                    ? "...loging"
+                    : <Accordion onChange={expandHandler} expanded={expended} sx={{all: "unset"}}>
 
                         <AccordionSummary expandIcon={<ExpandMoreIcon/>}
-                            aria-controls="panel1a-content"
-                            id="panel1a-header">
+                                          aria-controls="panel1a-content"
+                                          id="panel1a-header">
                             <>
                                 <EditableField value={props.title} callback={changeTodoTitleHandler}>
                                     <h3>{props.title}</h3>
