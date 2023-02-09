@@ -4,7 +4,7 @@ import {Moon, Sun} from "./SetTheme";
 import {Switch} from "@mui/material";
 import styles from "./DarkMode.module.scss"
 import {useAppDispatch} from "../../hooks/reduxHooks";
-import {themeToggle} from "../../features/app/appSlice";
+import {themeToggleThunk} from "../../features/app/appSlice";
 
 
 type TodoPropsType = {
@@ -14,7 +14,7 @@ export const DarkModeSwitch: FC<TodoPropsType> = ({theme}) => {
     const dispatch = useAppDispatch()
 
     const darkModeToggle = () => {
-        dispatch(themeToggle())
+        dispatch(themeToggleThunk())
     }
     return (
         <div className={styles.switchBox}>

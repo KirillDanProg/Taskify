@@ -1,4 +1,6 @@
-import {AsyncThunk, createSlice} from "@reduxjs/toolkit";
+import {RootAppType, AppDispatch} from './../../state/store';
+import {AsyncThunk, createSlice, createAsyncThunk, PayloadAction} from "@reduxjs/toolkit";
+import {Theme} from '@mui/material';
 
 const initialState = {
     error: null,
@@ -10,15 +12,18 @@ export const appSlice = createSlice({
     name: "app",
     initialState,
     reducers: {
-        themeToggle: (state) => {
-            state.theme = state.theme === "dark" ? "light" : "dark"
-        },
         resetError: (state) => {
             state.error = null
         }
     },
     extraReducers: (builder) => {
         builder
+            .addCase(themeToggleThunk.fulfilled, (state) => {
+                state.theme = state.theme === "dark" ? "light" : "dark"
+            })
+            .addCase(appInit.fulfilled, (state, action) => {
+                state.theme = action.payload as ThemeType
+            })
             .addMatcher(
                 (action): action is GenericAsyncThunk => action.type.endsWith("/pending"),
                 (state) => {
@@ -29,7 +34,7 @@ export const appSlice = createSlice({
             .addMatcher(
                 (action): action is GenericAsyncThunk => action.type.endsWith("/fulfilled"),
                 (state, {payload}) => {
-                    if(payload.messages?.length > 0) {
+                    if (payload && payload.messages?.length > 0) {
                         state.error = payload.messages[0]
                         state.status = "failed"
                     } else {
@@ -49,9 +54,26 @@ export const appSlice = createSlice({
 
 })
 
-export const {themeToggle, resetError} = appSlice.actions
+export const {resetError} = appSlice.actions
 
 export type GenericAsyncThunk = AsyncThunk<unknown, unknown, any>
 
 export type StatusType = "idle" | "succeeded" | "failed" | "loading"
+
 type ThemeType = "dark" | "light"
+
+export const themeToggleThunk = createAsyncThunk<void, void, { state: RootAppType, dispatch: AppDispatch }>(
+    "app/themeToggle",
+    (_, thunkAPI) => {
+        const theme = thunkAPI.getState().app.theme
+        const invertedTheme = theme === "dark" ? "light" : "dark"
+        localStorage.setItem("theme", invertedTheme)
+    })
+export const appInit = createAsyncThunk("app/init", () => {
+    const savedTheme = localStorage.getItem("theme")
+    if (savedTheme) {
+        return savedTheme
+    } else {
+        return "light"
+    }
+})
