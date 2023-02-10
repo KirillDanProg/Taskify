@@ -1,12 +1,12 @@
-import React, {FC, useState} from 'react';
+import {FC, useState} from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
-import styles from "../../todos/todolists/todo/Todo.module.scss"
-import {useAppDispatch} from "../../../hooks/reduxHooks";
+import styles from "features/todos/ui/todo/Todo.module.scss"
+import {useAppDispatch} from "hooks/reduxHooks";
 import {Skeleton} from "@mui/material";
-import {EditableField} from "../../../components/EditableField/EditableField";
-import {TaskType, updateTaskTC} from "../taskSlice";
-import {useDeleteTaskMutation} from "../tasksApi";
-import {StatusType} from "../../app/appSlice";
+import {EditableField} from "components/EditableField/EditableField";
+import { StatusType } from 'features/app/appSlice';
+import { useDeleteTaskMutation } from 'features/tasks/tasksApi';
+import { TaskType, updateTaskTC } from 'features/tasks/taskSlice';
 
 type TaskPropsType = TaskType & { entityStatus: StatusType }
 

@@ -1,6 +1,5 @@
-import {RootAppType, AppDispatch} from './../../state/store';
-import {AsyncThunk, createSlice, createAsyncThunk, PayloadAction} from "@reduxjs/toolkit";
-import {Theme} from '@mui/material';
+import { RootAppType, AppDispatch } from 'state/store';
+import { AsyncThunk, createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 
 const initialState = {
     error: null,
@@ -33,7 +32,7 @@ export const appSlice = createSlice({
             )
             .addMatcher(
                 (action): action is GenericAsyncThunk => action.type.endsWith("/fulfilled"),
-                (state, {payload}) => {
+                (state, { payload }) => {
                     if (payload && payload.messages?.length > 0) {
                         state.error = payload.messages[0]
                         state.status = "failed"
@@ -54,26 +53,23 @@ export const appSlice = createSlice({
 
 })
 
-export const {resetError} = appSlice.actions
+export const { resetError } = appSlice.actions
 
 export type GenericAsyncThunk = AsyncThunk<unknown, unknown, any>
 
 export type StatusType = "idle" | "succeeded" | "failed" | "loading"
 
 type ThemeType = "dark" | "light"
+export type ThunkApiType = {state: RootAppType, dispatch: AppDispatch}
 
-export const themeToggleThunk = createAsyncThunk<void, void, { state: RootAppType, dispatch: AppDispatch }>(
-    "app/themeToggle",
-    (_, thunkAPI) => {
-        const theme = thunkAPI.getState().app.theme
-        const invertedTheme = theme === "dark" ? "light" : "dark"
-        localStorage.setItem("theme", invertedTheme)
-    })
+export const themeToggleThunk = createAsyncThunk<void, void, ThunkApiType>("app/themeToggle", (_, thunkAPI) => {
+    const theme = thunkAPI.getState().app.theme
+    const invertedTheme = theme === "dark" ? "light" : "dark"
+    localStorage.setItem("theme", invertedTheme)
+})
+
+
 export const appInit = createAsyncThunk("app/init", () => {
     const savedTheme = localStorage.getItem("theme")
-    if (savedTheme) {
-        return savedTheme
-    } else {
-        return "light"
-    }
+    return savedTheme ? savedTheme : "light"
 })

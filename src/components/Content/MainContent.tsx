@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from "styled-components";
 import {AddItemForm} from "../AddItemForm/AddItemForm";
-import {Todolists} from "../../features/todos/Todolists";
+import {Todolists} from "../../features/todos/ui/Todolists";
 import {useAddTodolistMutation} from "../../features/todos/todoApi";
 
 const Wrap = styled.div`

@@ -16,7 +16,7 @@ let initialState: TodolistType[] = [
         addedDate: "2022-11-03T10:41:29.074",
         order: -4,
         filter: "all",
-        entityStatus: "idle"
+        entityStatus: "idle",
     },
 ]
 let emptyInitialState: TodolistType[]

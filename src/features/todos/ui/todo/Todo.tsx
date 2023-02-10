@@ -1,6 +1,6 @@
-import React, {FC, useState} from 'react';
-import {AddItemForm} from "components/AddItemForm/AddItemForm";
-import {EditableField} from "components/EditableField/EditableField";
+import React, { FC, useState } from 'react';
+import { AddItemForm } from "components/AddItemForm/AddItemForm";
+import { EditableField } from "components/EditableField/EditableField";
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import styles from "./Todo.module.scss"
@@ -12,11 +12,11 @@ import {
     useDeleteTodolistMutation,
     useUpdateTodoTitleMutation
 } from "../../todoApi";
-import {TodolistType} from "../../todoSlice";
-import {useAddTaskMutation, useFetchTasksQuery} from "../../../tasks/tasksApi";
-import {useAppSelector} from "hooks/reduxHooks";
-import {selectCurrentStatus} from "../../../selectors";
-import {Tasks} from "features/tasks/task/Tasks";
+import { TodolistType } from "../../todoSlice";
+import { useAddTaskMutation, useFetchTasksQuery } from "../../../tasks/tasksApi";
+import { useAppSelector } from "hooks/reduxHooks";
+import { selectCurrentStatus } from "../../../selectors";
+import { Tasks } from "features/tasks/ui/Tasks";
 
 const TodoBox = styled.div`
   display: inline-block;
@@ -41,60 +41,51 @@ const TodoBox = styled.div`
 
 export const Todo: FC<TodolistType> = (props) => {
     const [expended, setExpended] = useState(false)
-
     const expandHandler = () => {
         setExpended(!expended)
     }
-
     const [removeTodolist] = useDeleteTodolistMutation()
     const [updateTodoTitle] = useUpdateTodoTitleMutation()
-
-    const status = useAppSelector(selectCurrentStatus)
-
-    const {data = []} = useFetchTasksQuery({todolistId: props.id})
-
+    const status = props.isLoading || false
+    const { data = [] } = useFetchTasksQuery({ todolistId: props.id })
     const [addTask] = useAddTaskMutation()
-
 
     const removeTodolistHandler = async (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
         e.stopPropagation()
         await removeTodolist(props.id)
     }
-
     const AddTaskHandler = async (title: string) => {
-        await addTask({todolistId: props.id, title})
+        await addTask({ todolistId: props.id, title })
     }
-
     const changeTodoTitleHandler = async (value: string) => {
-        await updateTodoTitle({todolistId: props.id, title: value})
+        await updateTodoTitle({ todolistId: props.id, title: value })
     }
-
     return (
         <TodoBox>
             {
-                status === "loading"
+                status
                     ? "...loging"
-                    : <Accordion onChange={expandHandler} expanded={expended} sx={{all: "unset"}}>
+                    : <Accordion onChange={expandHandler} expanded={expended} sx={{ all: "unset" }}>
 
-                        <AccordionSummary expandIcon={<ExpandMoreIcon/>}
-                                          aria-controls="panel1a-content"
-                                          id="panel1a-header">
+                        <AccordionSummary expandIcon={<ExpandMoreIcon />}
+                            aria-controls="panel1a-content"
+                            id="panel1a-header">
                             <>
                                 <EditableField value={props.title} callback={changeTodoTitleHandler}>
                                     <h3>{props.title}</h3>
                                 </EditableField>
                                 <div className={styles.removeIcon}>
-                                    <RemoveCircleOutlineIcon onClick={removeTodolistHandler}/>
+                                    <RemoveCircleOutlineIcon onClick={removeTodolistHandler} />
                                 </div>
                             </>
                         </AccordionSummary>
 
                         <AccordionDetails>
                             <>
-                                <AddItemForm callback={AddTaskHandler} placeholder={"add task"}/>
+                                <AddItemForm callback={AddTaskHandler} placeholder={"add task"} />
                                 {
                                     data.length > 0
-                                        ? <Tasks tasks={data} status={props.entityStatus}/>
+                                        ? <Tasks tasks={data} status={props.entityStatus} />
                                         : ""
                                 }
                             </>

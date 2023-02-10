@@ -17,5 +17,6 @@ export type TodolistType = {
     "addedDate": string
     "order": number,
     filter: FilterValuesType,
-    entityStatus: StatusType
+    entityStatus: StatusType,
+    isLoading?: boolean
 }
