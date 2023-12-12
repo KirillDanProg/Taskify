@@ -1,13 +1,13 @@
-import React, {useEffect} from 'react';
-import {useFormik} from 'formik';
+import React, { useEffect } from 'react';
+import { useFormik } from 'formik';
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import * as yup from "yup"
 import styles from "./Login.module.scss"
-import {useAppSelector} from "../../hooks/reduxHooks";
+import { useAppSelector } from "../../hooks/reduxHooks";
 import styled from "styled-components";
-import {useLazyGetCaptchaQuery, useLoginMutation} from "../../features/auth/authApi";
-import {selectCaptchaUrl} from "../../features/selectors";
+import { useLazyGetCaptchaQuery, useLoginMutation } from "../../features/auth/authApi";
+import { selectCaptchaUrl } from "../../features/selectors";
 
 const LoginTipBox = styled.div`
   color: ${props => props.theme.textColor};
@@ -29,17 +29,14 @@ const validationSchema = yup.object({
 
 export const Login = () => {
     const captchaUrl = useAppSelector(selectCaptchaUrl)
-
     const [getCaptcha] = useLazyGetCaptchaQuery()
-    const [login, {data}] = useLoginMutation()
+    const [login, { data }] = useLoginMutation()
     const captchaError = data?.resultCode === 10
     useEffect(() => {
         if (captchaError) {
-            debugger
-
             getCaptcha()
         }
-    }, [captchaError])
+    }, [captchaError, getCaptcha])
 
     const formik = useFormik({
         initialValues: {
@@ -49,6 +46,7 @@ export const Login = () => {
         },
         validationSchema: validationSchema,
         onSubmit: (values) => {
+            values.password = values.password.trim()
             login(values)
         },
     });
@@ -77,13 +75,13 @@ export const Login = () => {
                     {...formik.getFieldProps("password")}
                 />
 
-                <Button color="primary" variant="contained" fullWidth type="submit" sx={{cursor: "pointer"}}>
+                <Button color="primary" variant="contained" fullWidth type="submit" sx={{ cursor: "pointer" }}>
                     Submit
                 </Button>
                 {
                     captchaUrl
                         ? <>
-                            <img alt={"captcha"} src={captchaUrl}/>
+                            <img alt={"captcha"} src={captchaUrl} />
                             <TextField
                                 required
                                 focused={true}
