@@ -2,7 +2,7 @@
   "name": "todolist-pwa",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://KirillDanProg.github.io/pwa-todolist",
+  "homepage": "https://kirilldanprog.github.io/pwa-todolist",
   "dependencies": {
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
