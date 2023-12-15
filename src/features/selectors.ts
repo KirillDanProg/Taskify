@@ -1,4 +1,4 @@
-import {RootAppType} from "../state/store";
+import { RootAppType } from "./app/store";
 
 // app selectors
 export const selectCurrentStatus = (state: RootAppType) => state.app.status

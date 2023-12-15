@@ -1,5 +1,5 @@
-import { RootAppType, AppDispatch } from 'state/store';
-import { AsyncThunk, createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import { RootAppType, AppDispatch } from 'features/app/store';
+import { AsyncThunk, createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 const initialState = {
     error: null,
@@ -60,7 +60,7 @@ export type GenericAsyncThunk = AsyncThunk<unknown, unknown, any>
 export type StatusType = "idle" | "succeeded" | "failed" | "loading"
 
 type ThemeType = "dark" | "light"
-export type ThunkApiType = {state: RootAppType, dispatch: AppDispatch}
+export type ThunkApiType = { state: RootAppType, dispatch: AppDispatch }
 
 export const themeToggleThunk = createAsyncThunk<void, void, ThunkApiType>("app/themeToggle", (_, thunkAPI) => {
     const theme = thunkAPI.getState().app.theme

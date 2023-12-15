@@ -1,5 +1,5 @@
-import {createSlice} from "@reduxjs/toolkit";
-import {authApi} from "./authApi";
+import { createSlice } from "@reduxjs/toolkit";
+import { authApi } from "./authApi";
 
 const initialState = {
     email: "",
@@ -14,7 +14,7 @@ export const authSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
-            .addMatcher(authApi.endpoints.me.matchFulfilled, (state, {payload}) => {
+            .addMatcher(authApi.endpoints.me.matchFulfilled, (state, { payload }) => {
                 if (payload.messages.length === 0) {
                     state.email = payload.data.email
                     state.login = payload.data.login
@@ -23,7 +23,7 @@ export const authSlice = createSlice({
                     state.id = null
                 }
             })
-            .addMatcher(authApi.endpoints.getCaptcha.matchFulfilled, (state, {payload}) => {
+            .addMatcher(authApi.endpoints.getCaptcha.matchFulfilled, (state, { payload }) => {
                 state.captchaUrl = payload.url
             })
     }

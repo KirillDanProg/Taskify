@@ -1,5 +1,5 @@
-import {apiSlice} from "../api/apiSlice";
-import {LoginDataType} from "./authSlice";
+import { apiSlice } from "../api/apiSlice";
+import { LoginDataType } from "./authSlice";
 
 export const authApi = apiSlice.injectEndpoints({
     endpoints: (build) => ({
@@ -24,7 +24,7 @@ export const authApi = apiSlice.injectEndpoints({
             }),
             providesTags: ["Auth"]
         }),
-        getCaptcha: build.query<{url: string }, void>({
+        getCaptcha: build.query<{ url: string }, void>({
             query: () => ({
                 url: `/security/get-captcha-url`
             })
@@ -34,7 +34,7 @@ export const authApi = apiSlice.injectEndpoints({
     })
 })
 
-export const {useLoginMutation, useLogoutMutation, useMeQuery, useLazyGetCaptchaQuery} = authApi
+export const { useLoginMutation, useLogoutMutation, useMeQuery, useLazyGetCaptchaQuery } = authApi
 
 type AuthResponseType = {
     data: {

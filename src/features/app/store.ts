@@ -1,11 +1,11 @@
-import {AnyAction, combineReducers} from "redux";
-import {ThunkAction, ThunkDispatch} from "redux-thunk";
-import {configureStore} from "@reduxjs/toolkit";
-import {apiSlice} from "../features/api/apiSlice";
-import {taskSlice} from "../features/tasks/taskSlice";
-import {todoSlice} from "../features/todos/todoSlice";
-import {authSlice} from "../features/auth/authSlice";
-import {appSlice} from "../features/app/appSlice";
+import { AnyAction, combineReducers } from "redux";
+import { ThunkAction, ThunkDispatch } from "redux-thunk";
+import { configureStore } from "@reduxjs/toolkit";
+import { apiSlice } from "../api/apiSlice";
+import { taskSlice } from "../tasks/taskSlice";
+import { todoSlice } from "../todos/todoSlice";
+import { authSlice } from "../auth/authSlice";
+import { appSlice } from "./appSlice";
 
 const rootReducer = combineReducers({
     todolist: todoSlice.reducer,
