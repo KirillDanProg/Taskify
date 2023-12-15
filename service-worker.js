@@ -85,7 +85,7 @@ const cacheUrls = ['/index.html', '/style.css', '/index.js', '/logo.png'];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(cacheUrls))
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(cacheUrls)).catch(err => console.log("install error: " + err))
   );
 });
 
