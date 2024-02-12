@@ -1,17 +1,17 @@
 import * as yup from "yup";
+import { useContext } from "react";
+import { ThemeContext } from "styled-components";
 import styles from "./Login.module.scss";
 import { useEffect } from "react";
 import { useFormik } from "formik";
-import { TextField, Button } from "@mui/material";
-
+import { TextField, Button, Link } from "@mui/material";
 import {
   useLazyGetCaptchaQuery,
   useLoginMutation,
 } from "../../features/auth/authApi";
 import { useAppSelector } from "hooks/reduxHooks";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { selectCaptchaUrl, selectIsAuth } from "features/auth/selectors";
-import { todoApi } from "../../features/todos/todoApi";
 
 const validationSchema = yup.object({
   email: yup
@@ -25,6 +25,7 @@ const validationSchema = yup.object({
 });
 
 export const Login = () => {
+  const theme = useContext(ThemeContext);
   const captchaUrl = useAppSelector(selectCaptchaUrl);
   const [getCaptcha] = useLazyGetCaptchaQuery();
   const [login, { data }] = useLoginMutation();
@@ -49,6 +50,13 @@ export const Login = () => {
       await login(values);
     },
   });
+  const textFieldStyle = {
+    border: `4px solid ${theme.mainColor}`,
+    borderRadius: "10px",
+    backgroundColor: "transparent",
+    color: "#fff",
+  };
+
   if (isAuth) {
     return <Navigate to='/' />;
   }
@@ -60,6 +68,16 @@ export const Login = () => {
           focused={true}
           label='Email'
           variant='filled'
+          InputLabelProps={{
+            style: {
+              color: theme.textColor,
+            },
+          }}
+          InputProps={{
+            disableUnderline: true,
+            style: { color: theme.textColor },
+          }}
+          sx={textFieldStyle}
           {...formik.getFieldProps("email")}
         />
         <TextField
@@ -68,18 +86,39 @@ export const Login = () => {
           label='Password'
           variant='filled'
           type='password'
+          InputLabelProps={{
+            style: {
+              color: theme.textColor,
+            },
+          }}
+          InputProps={{
+            disableUnderline: true,
+            style: { color: theme.textColor },
+          }}
+          sx={textFieldStyle}
           {...formik.getFieldProps("password")}
         />
-
         <Button
-          color='primary'
           variant='contained'
           fullWidth
           type='submit'
-          sx={{ cursor: "pointer" }}
+          sx={{
+            cursor: "pointer",
+            borderRadius: "10px",
+            backgroundColor: theme.mainColor,
+            "&:hover": {
+              backgroundColor: theme.brightMainColor,
+            },
+          }}
         >
-          Submit
+          Sign in
         </Button>
+        <Link
+          href='https://social-network.samuraijs.com/signUp'
+          target='_blank'
+        >
+          Dont't have an account yet?
+        </Link>
         {captchaUrl && (
           <>
             <img alt={"captcha"} src={captchaUrl} />

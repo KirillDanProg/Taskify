@@ -9,11 +9,17 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  & div {
-    margin-bottom: 15px;
-    width: 100%;
+  form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 15px;
+    width: 60%;
+    max-width: 400px;
+    a {
+      text-align: center;
+    }
   }
-
 }
 
 .loginBtn {
@@ -35,9 +41,4 @@
   //@extend .loginBtn;
   color: #fff;
   background-color: red;
-}
-
-.testData {
-  font-size: 20px;
-  color: gray;
 }
