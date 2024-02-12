@@ -1,20 +1,21 @@
-import React from 'react';
 import { Todo } from "./todo/Todo";
 import { useFetchTodoslistsQuery } from "../todoApi";
+import s from "./Todolists.module.scss";
 
 export const Todolists = () => {
-    const { data: todolists = [], isLoading } = useFetchTodoslistsQuery()
-
-    const mappedTodolists = todolists.map((todo) => {
-        return (
-            <Todo key={todo.id} {...todo} isLoading={isLoading} />
-        )
-    })
-
+  const { data: todolists = [] } = useFetchTodoslistsQuery();
+  // console.log("todolists render");
+  const mappedTodolists = todolists.map(({ id, title, entityStatus }) => {
     return (
-        <div className={"mainContentBox"}>
-            {mappedTodolists}
-        </div>
+      <Todo
+        key={id}
+        title={title}
+        id={id}
+        isLoading={false}
+        entityStatus={entityStatus}
+      />
     );
-};
+  });
 
+  return <div className={s.mainContentBox}>{mappedTodolists}</div>;
+};
