@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/pwa-todolist/static/css/main.c7d9c24d.css",
-    "main.js": "/pwa-todolist/static/js/main.ce776f7b.js",
+    "main.css": "/pwa-todolist/static/css/main.3f4974d2.css",
+    "main.js": "/pwa-todolist/static/js/main.d46e938a.js",
     "static/media/Roboto-Regular.ttf": "/pwa-todolist/static/media/Roboto-Regular.fc2b5060f7accec5cf74.ttf",
     "index.html": "/pwa-todolist/index.html",
     "static/media/Montserrat-Regular.ttf": "/pwa-todolist/static/media/Montserrat-Regular.31d6cfe0d16ae931b73c.ttf",
-    "main.c7d9c24d.css.map": "/pwa-todolist/static/css/main.c7d9c24d.css.map",
-    "main.ce776f7b.js.map": "/pwa-todolist/static/js/main.ce776f7b.js.map"
+    "main.3f4974d2.css.map": "/pwa-todolist/static/css/main.3f4974d2.css.map",
+    "main.d46e938a.js.map": "/pwa-todolist/static/js/main.d46e938a.js.map"
   },
   "entrypoints": [
-    "static/css/main.c7d9c24d.css",
-    "static/js/main.ce776f7b.js"
+    "static/css/main.3f4974d2.css",
+    "static/js/main.d46e938a.js"
   ]
 }
