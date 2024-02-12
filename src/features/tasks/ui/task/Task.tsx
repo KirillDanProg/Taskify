@@ -1,55 +1,42 @@
-import {FC, useState} from 'react';
-import DeleteIcon from '@mui/icons-material/Delete';
-import styles from "features/todos/ui/todo/Todo.module.scss"
-import {useAppDispatch} from "hooks/reduxHooks";
-import {Skeleton} from "@mui/material";
-import {EditableField} from "components/EditableField/EditableField";
-import { StatusType } from 'features/app/appSlice';
-import { useDeleteTaskMutation } from 'features/tasks/tasksApi';
-import { TaskType, updateTaskTC } from 'features/tasks/taskSlice';
+import { FC, useState } from "react";
+import DeleteIcon from "@mui/icons-material/Delete";
+import styles from "features/todos/ui/todo/Todo.module.scss";
+import { Skeleton } from "@mui/material";
+import { EditableField } from "components/EditableField/EditableField";
+import { StatusType } from "common/app/appSlice";
+import {
+  useDeleteTaskMutation,
+  useUpdateTaskMutation,
+} from "features/tasks/tasksApi";
+import { TaskType } from "features/tasks/taskSlice";
 
-type TaskPropsType = TaskType & { entityStatus: StatusType }
+type TaskPropsType = { task: TaskType } & { entityStatus: StatusType };
+export const Task: FC<TaskPropsType> = ({ task, entityStatus }) => {
+  const [deleteTask] = useDeleteTaskMutation();
+  const [updateTask] = useUpdateTaskMutation();
 
-export const Task: FC<TaskPropsType> = (props) => {
-    const [deleteTask] = useDeleteTaskMutation();
+  const deleteTaskHandler = async () => {
+    await deleteTask({ todolistId: task.todoListId, taskId: task.id });
+  };
 
-    const taskStatus = props.entityStatus
-    const dispatch = useAppDispatch()
-    const [isEdit, setEdit] = useState(false)
+  const changeValueHandler = (newValue: string) => {
+    const data = {
+      todolistId: task.todoListId,
+      taskId: task.id,
+      updatedTask: { ...task, title: newValue },
+    };
+    updateTask(data);
+  };
 
-    const deleteTaskHandler = async () => {
-        await deleteTask({todolistId: props.todoListId, taskId: props.id})
-    }
-
-    const changeValueHandler = (newValue: string) => {
-        //todo: update task
-
-        setEdit(false)
-        const data = {
-            todolistId: props.todoListId,
-            taskId: props.id,
-            model: {title: newValue}
-        }
-        dispatch(updateTaskTC(data))
-    }
-
-    return (
-        taskStatus === "loading" ?
-            <Skeleton variant="rectangular" className={styles.taskBox}/>
-            :
-            <div className={styles.taskBox}>
-                {
-                    <EditableField value={props.title} callback={changeValueHandler}>
-                        <div className={styles.title}>{props.title}</div>
-                    </EditableField>
-                }
-                <div>
-                    <DeleteIcon sx={{color: "#9700006b", cursor: "pointer"}}
-                                onClick={deleteTaskHandler}
-                    />
-                </div>
-            </div>
-    )
-
+  return (
+    <div className={styles.taskBox}>
+      <EditableField value={task.title} callback={changeValueHandler}>
+        <div className={styles.title}>{task.title}</div>
+      </EditableField>
+      <DeleteIcon
+        sx={{ color: "#9700006b", cursor: "pointer" }}
+        onClick={deleteTaskHandler}
+      />
+    </div>
+  );
 };
-
