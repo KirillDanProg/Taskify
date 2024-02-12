@@ -1,38 +1,40 @@
 import { ThemeProvider } from "styled-components";
 import { useAppDispatch, useAppSelector } from "./hooks/reduxHooks";
-import { useMeQuery } from "./features/auth/authApi";
-import { selectCurrentTheme } from "./features/selectors";
+import { useLazyMeQuery } from "./features/auth/authApi";
 import { themes } from "./components/DarkMode/Themes";
-import { TodoApp } from "./components/TodoApp";
 import { Preloader } from "./common/preloader/Preloader";
-import { useEffect, useRef } from 'react';
-import { appInit } from "features/app/appSlice";
-import "./App.css"
+import { useEffect, useRef } from "react";
+import { appInit } from "common/app/appSlice";
+import { CustomSnackbar } from "common/handlers/Snackbar";
+import "./App.css";
+import { AppRoutes } from "common/app/routes/AppRoutes";
+import { selectCurrentTheme } from "common/app/selectors";
+import { selectIsAuth } from "features/auth/selectors";
 
-export type ThemeModeType = "light" | "dark"
+export type ThemeModeType = "light" | "dark";
 
 export const App = () => {
-    const firstMount = useRef(true);
-    const { isLoading, data } = useMeQuery()
-    const theme = useAppSelector(selectCurrentTheme)
-    const dispatch = useAppDispatch()
+  const firstMount = useRef(true);
+  const [authMe, { isLoading }] = useLazyMeQuery();
+  const theme = useAppSelector(selectCurrentTheme);
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(appInit());
+    (async function () {
+      await authMe();
+      firstMount.current = false;
+    })();
+  }, []);
 
-    useEffect(() => {
-        firstMount.current = false
-        dispatch(appInit())
-    }, [dispatch])
+  if (isLoading || firstMount.current) {
+    firstMount.current = false;
+    return <Preloader />;
+  }
 
-    console.log("render");
-    return (
-        <ThemeProvider theme={themes[theme]}>
-            {/* {
-                !firstMount.current && <CustomSnackbar />
-            } */}
-            {
-                isLoading
-                    ? <Preloader />
-                    : <TodoApp theme={theme} userId={data?.data.id} />
-            }
-        </ThemeProvider>
-    );
+  return (
+    <ThemeProvider theme={themes[theme]}>
+      {!firstMount.current && <CustomSnackbar />}
+      <AppRoutes />
+    </ThemeProvider>
+  );
 };
