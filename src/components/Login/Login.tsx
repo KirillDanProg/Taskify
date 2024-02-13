@@ -20,11 +20,12 @@ const validationSchema = yup.object({
     .required("Email is required"),
   password: yup
     .string()
-    .min(4, "Password should be of minimum 8 characters length")
+    .min(8, "Password should be of minimum 8 characters length")
     .required("Password is required"),
 });
 
 export const Login = () => {
+  //todo: fix validation on submit
   const theme = useContext(ThemeContext);
   const captchaUrl = useAppSelector(selectCaptchaUrl);
   const [getCaptcha] = useLazyGetCaptchaQuery();
@@ -50,11 +51,21 @@ export const Login = () => {
       await login(values);
     },
   });
-  const textFieldStyle = {
-    border: `4px solid ${theme.mainColor}`,
+
+  const textFieldInputPropsStyle = {
     borderRadius: "10px",
     backgroundColor: "transparent",
-    color: "#fff",
+    color: theme.textColor,
+    border: `4px solid ${theme.mainColor}`,
+  };
+  const inputProps = {
+    disableUnderline: true,
+    style: textFieldInputPropsStyle,
+  };
+  const inputLabelProps = {
+    style: {
+      color: theme.textColor,
+    },
   };
 
   if (isAuth) {
@@ -67,18 +78,13 @@ export const Login = () => {
           required
           focused={true}
           label='Email'
+          autoComplete='off'
           variant='filled'
-          InputLabelProps={{
-            style: {
-              color: theme.textColor,
-            },
-          }}
-          InputProps={{
-            disableUnderline: true,
-            style: { color: theme.textColor },
-          }}
-          sx={textFieldStyle}
+          InputLabelProps={inputLabelProps}
+          InputProps={inputProps}
           {...formik.getFieldProps("email")}
+          error={!!formik.errors.email && formik.touched.email}
+          helperText={formik.touched.email && formik.errors.email}
         />
         <TextField
           required
@@ -86,17 +92,12 @@ export const Login = () => {
           label='Password'
           variant='filled'
           type='password'
-          InputLabelProps={{
-            style: {
-              color: theme.textColor,
-            },
-          }}
-          InputProps={{
-            disableUnderline: true,
-            style: { color: theme.textColor },
-          }}
-          sx={textFieldStyle}
+          InputLabelProps={inputLabelProps}
+          InputProps={inputProps}
+          id='outlined-error-helper-text'
           {...formik.getFieldProps("password")}
+          error={!!formik.errors.password && formik.touched.password}
+          helperText={formik.touched.password && formik.errors.password}
         />
         <Button
           variant='contained'
