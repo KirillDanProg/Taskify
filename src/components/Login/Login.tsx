@@ -103,6 +103,7 @@ export const Login = () => {
           variant='contained'
           fullWidth
           type='submit'
+          disabled={Object.keys(formik.errors).length > 0}
           sx={{
             cursor: "pointer",
             borderRadius: "10px",
