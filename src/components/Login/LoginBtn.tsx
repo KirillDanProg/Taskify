@@ -18,7 +18,7 @@ export const LoginBtn = () => {
           LOGOUT
         </StyledButton>
       ) : (
-        <h2>PWA TodoList</h2>
+        <h2>Taskify</h2>
       )}
     </>
   );

@@ -1,8 +1,8 @@
 {
-  "name": "todolist-pwa",
+  "name": "Taskify",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://kirilldanprog.github.io/pwa-todolist",
+  "homepage": "https://kirilldanprog.github.io/Taskify",
   "dependencies": {
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
