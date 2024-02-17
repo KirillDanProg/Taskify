@@ -1,10 +1,15 @@
-import { FC, useState } from "react";
-import { Form, Formik, FormikHelpers } from "formik";
+import { FC } from "react";
+import { FormikHelpers, useFormik } from "formik";
 import TextField from "@mui/material/TextField";
 import AddBoxIcon from "@mui/icons-material/AddBox";
-import styles from "./AddItemForm.module.scss";
-import { StyledButton } from "../../common/StyledButton";
-import { StyledTextField } from "../../common/StyledTextField";
+import s from "./AddItemForm.module.scss";
+import { StyledButton } from "common/components/StyledButton";
+import { StyledTextField } from "common/components/StyledTextField";
+import * as yup from "yup";
+
+const validationSchema = yup.object({
+  title: yup.string().required("field is empty").max(100, "too long value"),
+});
 
 type ErrorsType = {
   title: string;
@@ -14,50 +19,41 @@ type AddItemFormType = {
   placeholder: string;
 };
 export const AddItemForm: FC<AddItemFormType> = ({ callback, placeholder }) => {
-  const [error, setError] = useState(false);
-  const validate = (values: ErrorsType) => {
-    if (!values.title) {
-      setError(true);
-    } else {
-      error && setError(false);
-    }
-  };
-  const onSubmit = (
-    values: ErrorsType,
-    { setSubmitting, resetForm }: FormikHelpers<ErrorsType>
-  ) => {
-    callback(values.title);
-    resetForm();
-    setSubmitting(false);
-  };
+  const { handleSubmit, getFieldProps, isSubmitting, errors, values } =
+    useFormik({
+      initialValues: {
+        title: "",
+      },
+      validationSchema: validationSchema,
+      onSubmit: (
+        values: ErrorsType,
+        { setSubmitting, resetForm }: FormikHelpers<ErrorsType>
+      ) => {
+        callback(values.title);
+        resetForm();
+        setSubmitting(false);
+      },
+    });
+
+  const disabledButton = isSubmitting || !!errors.title || !values.title;
   return (
-    <Formik
-      initialValues={{ title: "" }}
-      validate={validate}
-      onSubmit={onSubmit}
-      validateOnBlur={false}
-    >
-      {(formik) => (
-        <Form className={styles.addForm}>
-          <StyledTextField>
-            <TextField
-              variant='standard'
-              error={error}
-              margin='dense'
-              color={"primary"}
-              label=''
-              placeholder={placeholder}
-              InputProps={{
-                disableUnderline: true,
-              }}
-              {...formik.getFieldProps("title")}
-            />
-          </StyledTextField>
-          <StyledButton type='submit' disabled={formik.isSubmitting}>
-            <AddBoxIcon fontSize={"large"} />
-          </StyledButton>
-        </Form>
-      )}
-    </Formik>
+    <form onSubmit={handleSubmit} className={s.addForm}>
+      <StyledTextField>
+        <TextField
+          fullWidth
+          variant='standard'
+          margin='dense'
+          color={"primary"}
+          placeholder={placeholder}
+          InputProps={{
+            disableUnderline: true,
+          }}
+          {...getFieldProps("title")}
+        />
+      </StyledTextField>
+      <StyledButton type='submit' disabled={disabledButton}>
+        <AddBoxIcon fontSize={"large"} />
+      </StyledButton>
+    </form>
   );
 };

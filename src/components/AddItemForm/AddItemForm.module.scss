@@ -4,6 +4,10 @@
     justify-content: center;
     flex-wrap: wrap;
     gap: 12px;
+    div {
+        flex: 1;
+        max-width: 300px;
+    }
     .error {
         width: 100%;
         text-align: center;
