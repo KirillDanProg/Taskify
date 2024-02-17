@@ -1,5 +1,4 @@
-import { selectIsAuth } from "features/auth/selectors";
-import { useAppSelector } from "hooks/reduxHooks";
+import { useMeQuery } from "features/auth/authApi";
 import { Navigate } from "react-router-dom";
 
 type PrivateRouteProps = {
@@ -7,7 +6,8 @@ type PrivateRouteProps = {
 };
 
 export const PrivateRoute = ({ children }: PrivateRouteProps) => {
-  const isAuth = useAppSelector(selectIsAuth);
+  const { data } = useMeQuery();
+  const isAuth = data?.id;
   if (!isAuth) {
     return <Navigate to='login' />;
   }
