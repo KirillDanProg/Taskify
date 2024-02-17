@@ -4,16 +4,17 @@ export const StyledButton = styled.button`
   all: unset;
   font-weight: bold;
   font-size: 14px;
-  color: ${props => props.theme.mainColor};
+  color: ${(props) => props.theme.mainColor};
   cursor: pointer;
 
-  &:active {
-    color: initial;
+  &:enabled:active {
+    color: ${(props) => props.theme.textColor};
     text-decoration: none;
-    background-color: #fff;
     transition: 0.4s;
     border-radius: 10px;
   }
+
+  &:disabled {
+    opacity: 0.5;
+  }
 `;
-
-

@@ -1,4 +1,4 @@
-import { StyledButton } from "../../common/StyledButton";
+import { StyledButton } from "../../common/components/StyledButton";
 import { useLogoutMutation, useMeQuery } from "../../features/auth/authApi";
 
 export const LoginBtn = () => {

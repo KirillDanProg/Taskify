@@ -2,7 +2,7 @@ import MainContent from "components/Content";
 import { Login } from "components/Login/Login";
 import { Layout } from "components/Layout";
 import { Route, Routes } from "react-router-dom";
-import { PrivateRoute } from "common/PrivateRoute";
+import { PrivateRoute } from "common/components/PrivateRoute";
 
 export const AppRoutes = () => {
   return (

@@ -1,4 +1,4 @@
-import { RootAppType, AppDispatch } from "common/app/store";
+import { RootAppType, AppDispatch } from "app/store";
 import { AsyncThunk, createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 const initialState = {
@@ -22,37 +22,26 @@ export const appSlice = createSlice({
       })
       .addCase(appInit.fulfilled, (state, action) => {
         state.theme = action.payload as ThemeType;
-      });
-    // .addMatcher(
-    //   (action): action is GenericAsyncThunk =>
-    //     action.type.endsWith("/pending"),
-    //   (state) => {
-    //     state.status = "loading";
-    //     state.error = null;
-    //   }
-    // );
-    //   .addMatcher(
-    //     (action): action is GenericAsyncThunk =>
-    //       action.type.endsWith("/fulfilled"),
-    //     (state, { payload }) => {
-    //       if (payload && payload.messages?.length > 0) {
-    //         state.error = payload.messages[0];
-    //         state.status = "failed";
-    //       } else {
-    //         state.status = "succeeded";
-    //         state.error = null;
-    //       }
-    //     }
-    //   )
-    // .addMatcher(
-    //   (action): action is GenericAsyncThunk =>
-    //     action.type.endsWith("/rejected"),
-    //   (state, action) => {
-    //     debugger;
-    //     state.status = "failed";
-    //     state.error = action.payload.data.error;
-    //   }
-    // );
+      })
+      .addMatcher(
+        (action) => action.type.endsWith("/fulfilled"),
+        (state, { payload }) => {
+          if (payload && payload.messages?.length > 0) {
+            state.error = payload.messages[0];
+            state.status = "failed";
+          } else {
+            state.status = "succeeded";
+            state.error = null;
+          }
+        }
+      )
+      .addMatcher(
+        (action) => action.type.endsWith("/rejected"),
+        (state, action) => {
+          state.status = "failed";
+          state.error = action.payload.error;
+        }
+      );
   },
 });
 
