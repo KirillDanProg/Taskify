@@ -8,10 +8,11 @@ import { TextField, Button, Link } from "@mui/material";
 import {
   useLazyGetCaptchaQuery,
   useLoginMutation,
+  useMeQuery,
 } from "../../features/auth/authApi";
 import { useAppSelector } from "hooks/reduxHooks";
 import { Navigate } from "react-router-dom";
-import { selectCaptchaUrl, selectIsAuth } from "features/auth/selectors";
+import { selectCaptchaUrl } from "features/auth/selectors";
 
 const validationSchema = yup.object({
   email: yup
@@ -25,13 +26,13 @@ const validationSchema = yup.object({
 });
 
 export const Login = () => {
-  //todo: fix validation on submit
   const theme = useContext(ThemeContext);
   const captchaUrl = useAppSelector(selectCaptchaUrl);
   const [getCaptcha] = useLazyGetCaptchaQuery();
   const [login, { data }] = useLoginMutation();
+  const { data: authMeData } = useMeQuery();
+  const isAuth = authMeData?.id;
   const captchaError = data?.resultCode === 10;
-  const isAuth = useAppSelector(selectIsAuth);
 
   useEffect(() => {
     if (captchaError) {
@@ -94,7 +95,6 @@ export const Login = () => {
           type='password'
           InputLabelProps={inputLabelProps}
           InputProps={inputProps}
-          id='outlined-error-helper-text'
           {...formik.getFieldProps("password")}
           error={!!formik.errors.password && formik.touched.password}
           helperText={formik.touched.password && formik.errors.password}

@@ -1,29 +1,25 @@
 import { ThemeProvider } from "styled-components";
 import { useAppDispatch, useAppSelector } from "./hooks/reduxHooks";
-import { useLazyMeQuery } from "./features/auth/authApi";
+import { useMeQuery } from "./features/auth/authApi";
 import { themes } from "./components/DarkMode/Themes";
 import { Preloader } from "./common/preloader/Preloader";
 import { useEffect, useRef } from "react";
-import { appInit } from "common/app/appSlice";
+import { appInit } from "app/appSlice";
 import { CustomSnackbar } from "common/handlers/Snackbar";
 import "./App.css";
-import { AppRoutes } from "common/app/routes/AppRoutes";
-import { selectCurrentTheme } from "common/app/selectors";
-import { selectIsAuth } from "features/auth/selectors";
+import { AppRoutes } from "app/routes/AppRoutes";
+import { selectCurrentTheme } from "app/selectors";
 
 export type ThemeModeType = "light" | "dark";
 
 export const App = () => {
   const firstMount = useRef(true);
-  const [authMe, { isLoading }] = useLazyMeQuery();
+  const { isLoading } = useMeQuery();
   const theme = useAppSelector(selectCurrentTheme);
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(appInit());
-    (async function () {
-      await authMe();
-      firstMount.current = false;
-    })();
+    firstMount.current = false;
   }, []);
 
   if (isLoading || firstMount.current) {

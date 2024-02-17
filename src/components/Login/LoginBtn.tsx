@@ -1,10 +1,9 @@
-import { useAppSelector } from "../../hooks/reduxHooks";
 import { StyledButton } from "../../common/StyledButton";
-import { useLogoutMutation } from "../../features/auth/authApi";
-import { selectIsAuth } from "features/auth/selectors";
+import { useLogoutMutation, useMeQuery } from "../../features/auth/authApi";
 
 export const LoginBtn = () => {
-  const isAuth = useAppSelector(selectIsAuth);
+  const { data } = useMeQuery();
+  const isAuth = data?.id;
   const [logout] = useLogoutMutation();
 
   const logoutHandler = () => {
