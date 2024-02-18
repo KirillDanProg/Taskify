@@ -10,9 +10,11 @@
   border-radius: 50%;
   background-color: ghostwhite;
 }
+
 .customFocusVisible {
   background-color: transparent !important;
 }
+
 .taskBox {
   width: 100%;
   position: relative;
@@ -21,6 +23,7 @@
   justify-content: space-between;
   margin-top: 15px;
   border-bottom: 0.3px solid lightslategray;
+
   & .title {
     width: 100%;
     text-align: center;

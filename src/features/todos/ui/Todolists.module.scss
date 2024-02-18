@@ -1,19 +1,10 @@
 .mainContentBox {
-  display: -ms-flexbox;
-  display: -webkit-flex;
+  display: flexbox;
   display: flex;
-  -webkit-flex-direction: row;
-  -ms-flex-direction: row;
-  flex-direction: row;
-  -webkit-flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-  -webkit-justify-content: center;
+  flex-flow: row wrap;
+  -webkit-place-content: stretch center;
   -ms-flex-pack: start;
-  justify-content: center;
-  -webkit-align-content: stretch;
-  align-content: stretch;
-  -webkit-align-items: flex-start;
+  place-content: stretch center;
   -ms-flex-align: start;
   align-items: flex-start;
   gap: 25px;
