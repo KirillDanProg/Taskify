@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { RootAppType, AppDispatch } from "common/app/store";
+import { RootAppType, AppDispatch } from "app/store";
 
 export const apiSlice = createApi({
   reducerPath: "api",

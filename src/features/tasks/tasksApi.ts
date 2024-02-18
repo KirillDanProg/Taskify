@@ -1,6 +1,6 @@
 import { apiSlice } from "../api/apiSlice";
-import { ResponseType } from "../../api/todolists-api";
-import { TaskType } from "./taskSlice";
+import { TaskType } from "./types";
+import { ResponseType } from "../api/types";
 
 type FetchTasksResType = {
   items: TaskType[];

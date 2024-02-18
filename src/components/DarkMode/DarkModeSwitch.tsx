@@ -3,7 +3,7 @@ import { ThemeModeType } from "../../App";
 import { Moon, Sun } from "./SetTheme";
 import { Switch } from "@mui/material";
 import styles from "./DarkMode.module.scss";
-import { themeToggleThunk } from "../../common/app/appSlice";
+import { themeToggleThunk } from "../../app/appSlice";
 import { useAppDispatch } from "hooks/reduxHooks";
 
 type TodoPropsType = {
