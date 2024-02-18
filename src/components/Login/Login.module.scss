@@ -2,13 +2,11 @@
   width: 90%;
   margin: 0 auto;
   position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 20%;
-  right: 0;
+  inset: 0 0 20%;
   display: flex;
   align-items: center;
   justify-content: center;
+
   form {
     display: flex;
     flex-direction: column;
@@ -16,29 +14,10 @@
     gap: 15px;
     width: 60%;
     max-width: 400px;
-    a {
+
+    .registerLink {
       text-align: center;
+      user-select: none;
     }
   }
-}
-
-.loginBtn {
-  cursor: pointer;
-  color: #fff;
-  text-decoration: none;
-  &:active {
-    color: initial;
-    text-decoration: none;
-    background-color: #a52dff;
-    transition: 0.4s;
-    padding: 10px 15px;
-    border-radius: 10px;
-
-  }
-}
-
-.logoutBtn {
-  //@extend .loginBtn;
-  color: #fff;
-  background-color: red;
 }
