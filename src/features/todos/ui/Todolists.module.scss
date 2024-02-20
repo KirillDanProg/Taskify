@@ -1,12 +1,18 @@
 .mainContentBox {
-  display: flexbox;
   display: flex;
   flex-flow: row wrap;
-  -webkit-place-content: stretch center;
-  -ms-flex-pack: start;
-  place-content: stretch center;
-  -ms-flex-align: start;
-  align-items: flex-start;
   gap: 25px;
+  align-items: flex-start;
+  justify-content: center;
+
   margin-top: 30px;
+  padding:  0 50px;
+
+  .todolist{
+    flex: 1 0 220px;
+  }
+}
+
+.start {
+  justify-content: start;
 }
