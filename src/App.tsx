@@ -6,7 +6,7 @@ import { Preloader } from "./common/preloader/Preloader";
 import { useEffect, useRef } from "react";
 import { appInit } from "app/appSlice";
 import { CustomSnackbar } from "common/handlers/Snackbar";
-import "./App.css";
+import "app/styles/index.css";
 import { AppRoutes } from "app/routes/AppRoutes";
 import { selectCurrentTheme } from "app/selectors";
 
