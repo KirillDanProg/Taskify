@@ -19,12 +19,9 @@ export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {},
-  extraReducers: (builder) => {
-    builder.addMatcher(
-      authApi.endpoints.getCaptcha.matchFulfilled,
-      (state, { payload }) => {
-        state.captchaUrl = payload.url;
-      }
-    );
+  extraReducers: builder => {
+    builder.addMatcher(authApi.endpoints.getCaptcha.matchFulfilled, (state, { payload }) => {
+      state.captchaUrl = payload.url;
+    });
   },
 });

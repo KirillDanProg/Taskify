@@ -1,24 +1,16 @@
 import * as yup from "yup";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { ThemeContext } from "styled-components";
-import styles from "./Login.module.scss";
-import { useEffect } from "react";
+import s from "./Login.module.scss";
 import { useFormik } from "formik";
 import { TextField, Button, Link } from "@mui/material";
-import {
-  useLazyGetCaptchaQuery,
-  useLoginMutation,
-  useMeQuery,
-} from "../../features/auth/authApi";
+import { useLazyGetCaptchaQuery, useLoginMutation, useMeQuery } from "../../features/auth/authApi";
 import { useAppSelector } from "hooks/reduxHooks";
 import { Navigate } from "react-router-dom";
 import { selectCaptchaUrl } from "features/auth/selectors";
 
 const validationSchema = yup.object({
-  email: yup
-    .string()
-    .email("Enter a valid email")
-    .required("Email is required"),
+  email: yup.string().email("Enter a valid email").required("Email is required"),
   password: yup
     .string()
     .min(8, "Password should be of minimum 8 characters length")
@@ -29,10 +21,10 @@ export const Login = () => {
   const theme = useContext(ThemeContext);
   const captchaUrl = useAppSelector(selectCaptchaUrl);
   const [getCaptcha] = useLazyGetCaptchaQuery();
-  const [login, { data }] = useLoginMutation();
+  const [login, { data: loginData }] = useLoginMutation();
   const { data: authMeData } = useMeQuery();
   const isAuth = authMeData?.id;
-  const captchaError = data?.resultCode === 10;
+  const captchaError = loginData?.resultCode === 10;
 
   useEffect(() => {
     if (captchaError) {
@@ -46,12 +38,16 @@ export const Login = () => {
       password: "",
       captcha: "",
     },
-    validationSchema: validationSchema,
-    onSubmit: async (values) => {
+    validationSchema,
+    onSubmit: async values => {
       values.password = values.password.trim();
       await login(values);
     },
   });
+
+  if (isAuth) {
+    return <Navigate to="/" />;
+  }
 
   const textFieldInputPropsStyle = {
     borderRadius: "10px",
@@ -69,18 +65,15 @@ export const Login = () => {
     },
   };
 
-  if (isAuth) {
-    return <Navigate to='/' />;
-  }
   return (
-    <div className={styles.formBox}>
+    <div className={s.formBox}>
       <form onSubmit={formik.handleSubmit}>
         <TextField
           required
           focused={true}
-          label='Email'
-          autoComplete='off'
-          variant='filled'
+          label="Email"
+          autoComplete="off"
+          variant="filled"
           InputLabelProps={inputLabelProps}
           InputProps={inputProps}
           {...formik.getFieldProps("email")}
@@ -90,9 +83,9 @@ export const Login = () => {
         <TextField
           required
           focused={true}
-          label='Password'
-          variant='filled'
-          type='password'
+          label="Password"
+          variant="filled"
+          type="password"
           InputLabelProps={inputLabelProps}
           InputProps={inputProps}
           {...formik.getFieldProps("password")}
@@ -100,9 +93,9 @@ export const Login = () => {
           helperText={formik.touched.password && formik.errors.password}
         />
         <Button
-          variant='contained'
+          variant="contained"
           fullWidth
-          type='submit'
+          type="submit"
           disabled={Object.keys(formik.errors).length > 0}
           sx={{
             cursor: "pointer",
@@ -116,10 +109,11 @@ export const Login = () => {
           Sign in
         </Button>
         <Link
-          href='https://social-network.samuraijs.com/signUp'
-          target='_blank'
+          className={s.registerLink}
+          href="https://social-network.samuraijs.com/signUp"
+          target="_blank"
         >
-          Dont't have an account yet?
+          Don&apos; t have an account yet?
         </Link>
         {captchaUrl && (
           <>
@@ -127,8 +121,8 @@ export const Login = () => {
             <TextField
               required
               focused={true}
-              label='captcha'
-              type='captcha'
+              label="captcha"
+              type="captcha"
               {...formik.getFieldProps("captcha")}
             />
           </>

@@ -1,19 +1,11 @@
-import React, { FC } from "react";
+import React, { type FC } from "react";
 import { Task } from "./task/Task";
-import { StatusType } from "../../../app/appSlice";
-import { TaskType } from "../types";
+import { type TaskType } from "../types";
 
-type TasksPropsType = {
+interface TasksPropsType {
   tasks: TaskType[];
-  status: StatusType;
-};
+}
 
-export const Tasks: FC<TasksPropsType> = ({ tasks, status }) => {
-  return (
-    <>
-      {tasks?.map((task) => (
-        <Task entityStatus={status} key={task.id} task={task} />
-      ))}
-    </>
-  );
+export const Tasks: FC<TasksPropsType> = ({ tasks }) => {
+  return <>{tasks?.map(task => <Task key={task.id} task={task} />)}</>;
 };

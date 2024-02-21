@@ -1,4 +1,4 @@
-export type TaskType = {
+export interface TaskType {
   description: string;
   title: string;
   completed: boolean;
@@ -10,4 +10,4 @@ export type TaskType = {
   todoListId: string;
   order: number;
   addedDate: string;
-};
+}

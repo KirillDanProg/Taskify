@@ -1,14 +1,18 @@
 .editableFieldBox {
   display: flex;
-  align-items: center;
   flex: 1;
   gap: 10px;
+  align-items: center;
 
   .editableInput {
-    padding: 3px 3px 0 8px;
+    width: 100%;
+    padding: 6px 0 0;
     border: 1.5px solid;
     border-radius: 8px;
-    width: 100%;
+
+    input {
+      text-align: center;
+    }
   }
 }
 

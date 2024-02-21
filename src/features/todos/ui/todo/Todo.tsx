@@ -1,18 +1,14 @@
-import React, { FC, useState } from 'react';
+import React, { useState } from "react";
 import { AddItemForm } from "components/AddItemForm/AddItemForm";
 import { EditableField } from "components/EditableField/EditableField";
-import { RemoveCircleOutline } from '@mui/icons-material';
-import { ExpandMore } from '@mui/icons-material';
-import styles from "./Todo.module.scss"
+import { RemoveCircleOutline, ExpandMore } from "@mui/icons-material";
+import s from "./Todo.module.scss";
 import styled from "styled-components";
 import { Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
-import {
-    useDeleteTodolistMutation,
-    useUpdateTodoTitleMutation
-} from "../../todoApi";
-import { TodolistType } from "../../todoSlice";
+import { useDeleteTodolistMutation, useUpdateTodoTitleMutation } from "../../todoApi";
 import { useAddTaskMutation, useFetchTasksQuery } from "../../../tasks/tasksApi";
 import { Tasks } from "features/tasks/ui/Tasks";
+import { type TodolistType } from "features/todos/types";
 
 const TodoBox = styled.div`
   display: inline-block;
@@ -33,63 +29,58 @@ const TodoBox = styled.div`
   @media (max-width: 500px) {
     width: 90%;
   }
-`
+`;
+type Props = TodolistType & { className: string };
+export const Todo = ({ id, title, className }: Props) => {
+  const [expended, setExpended] = useState(false);
+  const [removeTodolist] = useDeleteTodolistMutation();
+  const [updateTodoTitle] = useUpdateTodoTitleMutation();
+  const { data = [] } = useFetchTasksQuery({ todolistId: id });
+  const [addTask] = useAddTaskMutation();
 
-export const Todo: FC<TodolistType> = (props) => {
-    console.log("todo rendered");
+  const expandHandler = () => {
+    setExpended(!expended);
+  };
+  const removeTodolistHandler = async (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
+    e.stopPropagation();
+    void removeTodolist(id);
+  };
+  const addTaskHandler = async (title: string) => {
+    void addTask({ todolistId: id, title });
+  };
+  const changeTodoTitleHandler = async (value: string) => {
+    void updateTodoTitle({ todolistId: id, title: value });
+  };
 
-    const [expended, setExpended] = useState(false)
-    const [removeTodolist] = useDeleteTodolistMutation()
-    const [updateTodoTitle] = useUpdateTodoTitleMutation()
-    const { data = [] } = useFetchTasksQuery({ todolistId: props.id })
-    const [addTask] = useAddTaskMutation()
-    const status = props.isLoading || false
-
-    const expandHandler = () => {
-        setExpended(!expended)
-    }
-    const removeTodolistHandler = async (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
-        e.stopPropagation()
-        await removeTodolist(props.id)
-    }
-    const AddTaskHandler = async (title: string) => {
-        await addTask({ todolistId: props.id, title })
-    }
-    const changeTodoTitleHandler = async (value: string) => {
-        await updateTodoTitle({ todolistId: props.id, title: value })
-    }
-
-    return (
-        <TodoBox>
-            {
-                status
-                    ? "...loading"
-                    : <Accordion onChange={expandHandler} expanded={expended} sx={{ all: "unset" }}>
-                        <AccordionSummary expandIcon={<ExpandMore />}
-                            aria-controls="panel1a-content"
-                            id="panel1a-header">
-                            <>
-                                <EditableField value={props.title} callback={changeTodoTitleHandler}>
-                                    <h3>{props.title}</h3>
-                                </EditableField>
-                                <div className={styles.removeIcon}>
-                                    <RemoveCircleOutline onClick={removeTodolistHandler} />
-                                </div>
-                            </>
-                        </AccordionSummary>
-                        <AccordionDetails>
-                            <>
-                                <AddItemForm callback={AddTaskHandler} placeholder={"add task"} />
-                                {
-                                    data.length > 0
-                                        ? <Tasks tasks={data} status={props.entityStatus} />
-                                        : ""
-                                }
-                            </>
-                        </AccordionDetails>
-                    </Accordion>
-            }
-        </TodoBox>
-    );
+  return (
+    <TodoBox className={className}>
+      <Accordion onChange={expandHandler} expanded={expended} sx={{ all: "unset" }}>
+        <AccordionSummary
+          expandIcon={<ExpandMore />}
+          aria-controls="panel1a-content"
+          id="panel1a-header"
+          classes={{
+            focusVisible: `${s.customFocusVisible}`,
+          }}
+        >
+          <>
+            <EditableField initialValue={title} callback={changeTodoTitleHandler}>
+              <h3>{title}</h3>
+            </EditableField>
+            <div className={s.removeIcon}>
+              <RemoveCircleOutline onClick={removeTodolistHandler} />
+            </div>
+          </>
+        </AccordionSummary>
+        <AccordionDetails>
+          <>
+            <AddItemForm callback={addTaskHandler} placeholder={"add task"} />
+            {<Tasks tasks={data} />}
+          </>
+        </AccordionDetails>
+      </Accordion>
+    </TodoBox>
+  );
 };
 
+export default React.memo(Todo);

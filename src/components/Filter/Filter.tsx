@@ -3,7 +3,7 @@ import s from "./Filter.module.scss";
 import { Button, MenuItem, Menu } from "@mui/material";
 import TuneIcon from "@mui/icons-material/Tune";
 import { Icon } from "common/components/icon/Icon";
-import { useState, MouseEvent, useContext } from "react";
+import { useState, type MouseEvent, useContext } from "react";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import AlignHorizontalCenterIcon from "@mui/icons-material/AlignHorizontalCenter";
@@ -30,9 +30,7 @@ export const Filter = () => {
     if (!sort) {
       searchParams.set("sort", "asc");
     } else {
-      sort === "asc"
-        ? searchParams.set("sort", "desc")
-        : searchParams.delete("sort");
+      sort === "asc" ? searchParams.set("sort", "desc") : searchParams.delete("sort");
     }
     setSearchParams(searchParams);
   };
@@ -47,7 +45,7 @@ export const Filter = () => {
   };
 
   const clearHandler = () => {
-    [...searchParams.keys()].forEach((key) => {
+    [...searchParams.keys()].forEach(key => {
       searchParams.delete(key);
     });
     setSearchParams(searchParams);
@@ -57,18 +55,18 @@ export const Filter = () => {
     <>
       <Button
         sx={{ color: "unset" }}
-        id='basic-button'
+        id="basic-button"
         aria-controls={open ? "basic-menu" : undefined}
-        aria-haspopup='true'
+        aria-haspopup="true"
         aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
       >
-        <Icon size='M'>
+        <Icon size="M">
           <TuneIcon />
         </Icon>
       </Button>
       <Menu
-        id='basic-menu'
+        id="basic-menu"
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
@@ -89,17 +87,12 @@ export const Filter = () => {
       >
         <MenuItem className={s.sortItem} onClick={sortHandler}>
           Sort
-          {sort &&
-            (sort === "asc" ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />)}
+          {sort && (sort === "asc" ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />)}
         </MenuItem>
         <MenuItem className={s.sortItem} onClick={alignHandler}>
           Align
-          <Icon size='S'>
-            {align ? (
-              <AlignHorizontalLeftIcon />
-            ) : (
-              <AlignHorizontalCenterIcon />
-            )}
+          <Icon size="S">
+            {align ? <AlignHorizontalLeftIcon /> : <AlignHorizontalCenterIcon />}
           </Icon>
         </MenuItem>
         <MenuItem className={s.sortItem} onClick={clearHandler}>

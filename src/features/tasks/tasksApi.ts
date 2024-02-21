@@ -1,14 +1,14 @@
 import { apiSlice } from "../api/apiSlice";
-import { TaskType } from "./types";
-import { ResponseType } from "../api/types";
+import { type TaskType } from "./types";
+import { type ResponseType } from "../api/types";
 
-type FetchTasksResType = {
+interface FetchTasksResType {
   items: TaskType[];
   error: string;
-};
+}
 
 export const tasksApi = apiSlice.injectEndpoints({
-  endpoints: (build) => ({
+  endpoints: build => ({
     fetchTasks: build.query<TaskType[], { todolistId: string }>({
       query: ({ todolistId }) => `/todo-lists/${todolistId}/tasks`,
       providesTags: ["Task"],
@@ -27,10 +27,7 @@ export const tasksApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Task"],
     }),
-    deleteTask: build.mutation<
-      ResponseType<{}>,
-      { todolistId: string; taskId: string }
-    >({
+    deleteTask: build.mutation<ResponseType<{}>, { todolistId: string; taskId: string }>({
       query: ({ todolistId, taskId }) => ({
         url: `/todo-lists/${todolistId}/tasks/${taskId}`,
         method: "DELETE",

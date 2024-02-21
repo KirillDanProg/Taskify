@@ -1,20 +1,19 @@
-.addForm{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 12px;
+.addForm {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
 
-    div {
-        flex: 1;
-        max-width: 300px;
-    }
+  div {
+    flex: 1;
+    max-width: 300px;
+  }
 
-    .error {
-        width: 100%;
-        text-align: center;
-        color: rgb(255 0 0);
-        font-size: 18px;
-    }
-
+  .error {
+    width: 100%;
+    font-size: 18px;
+    color: rgb(255 0 0);
+    text-align: center;
+  }
 }

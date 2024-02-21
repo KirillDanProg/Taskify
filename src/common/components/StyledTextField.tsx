@@ -6,5 +6,3 @@ export const StyledTextField = styled.div`
   background-color: #fff;
   border: 3px solid ${props => props.theme.mainColor};
 `;
-
-

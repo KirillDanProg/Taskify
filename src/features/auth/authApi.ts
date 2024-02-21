@@ -1,11 +1,11 @@
 import { apiSlice } from "../api/apiSlice";
-import { AuthResponseType, LoginDataType, ResponseDataType } from "./types";
+import { type AuthResponseType, type LoginDataType, type ResponseDataType } from "./types";
 
 export const authApi = apiSlice.injectEndpoints({
-  endpoints: (build) => ({
+  endpoints: build => ({
     login: build.mutation<AuthResponseType, LoginDataType>({
       query: (data: LoginDataType) => ({
-        url: `/auth/login`,
+        url: "/auth/login",
         method: "POST",
         body: data,
       }),
@@ -13,14 +13,14 @@ export const authApi = apiSlice.injectEndpoints({
     }),
     logout: build.mutation<unknown, void>({
       query: () => ({
-        url: `/auth/login`,
+        url: "/auth/login",
         method: "DELETE",
       }),
       invalidatesTags: ["Auth"],
     }),
     me: build.query<ResponseDataType, void>({
       query: () => ({
-        url: `auth/me`,
+        url: "auth/me",
       }),
       transformResponse: (response: AuthResponseType) => {
         return response.data;
@@ -29,7 +29,7 @@ export const authApi = apiSlice.injectEndpoints({
     }),
     getCaptcha: build.query<{ url: string }, void>({
       query: () => ({
-        url: `/security/get-captcha-url`,
+        url: "/security/get-captcha-url",
       }),
     }),
   }),

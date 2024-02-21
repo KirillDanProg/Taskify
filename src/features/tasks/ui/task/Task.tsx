@@ -1,25 +1,24 @@
-import { FC, useState } from "react";
+import { type FC } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import styles from "features/todos/ui/todo/Todo.module.scss";
-import { Skeleton } from "@mui/material";
 import { EditableField } from "components/EditableField/EditableField";
-import { StatusType } from "common/app/appSlice";
-import {
-  useDeleteTaskMutation,
-  useUpdateTaskMutation,
-} from "features/tasks/tasksApi";
-import { TaskType } from "features/tasks/taskSlice";
+import { useDeleteTaskMutation, useUpdateTaskMutation } from "features/tasks/tasksApi";
+import { type TaskType } from "features/tasks/types";
+import { Icon } from "common/components/icon/Icon";
 
-type TaskPropsType = { task: TaskType } & { entityStatus: StatusType };
-export const Task: FC<TaskPropsType> = ({ task, entityStatus }) => {
+interface TaskPropsType {
+  task: TaskType;
+}
+
+export const Task: FC<TaskPropsType> = ({ task }) => {
   const [deleteTask] = useDeleteTaskMutation();
   const [updateTask] = useUpdateTaskMutation();
 
-  const deleteTaskHandler = async () => {
+  const deleteTaskHandler = async (): Promise<void> => {
     await deleteTask({ todolistId: task.todoListId, taskId: task.id });
   };
 
-  const changeValueHandler = (newValue: string) => {
+  const changeValueHandler = async (newValue: string): Promise<void> => {
     const data = {
       todolistId: task.todoListId,
       taskId: task.id,
@@ -30,13 +29,12 @@ export const Task: FC<TaskPropsType> = ({ task, entityStatus }) => {
 
   return (
     <div className={styles.taskBox}>
-      <EditableField value={task.title} callback={changeValueHandler}>
+      <EditableField initialValue={task.title} callback={changeValueHandler} iconSide="right">
         <div className={styles.title}>{task.title}</div>
       </EditableField>
-      <DeleteIcon
-        sx={{ color: "#9700006b", cursor: "pointer" }}
-        onClick={deleteTaskHandler}
-      />
+      <Icon>
+        <DeleteIcon sx={{ color: "#9700006b" }} onClick={deleteTaskHandler} />
+      </Icon>
     </div>
   );
 };

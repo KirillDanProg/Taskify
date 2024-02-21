@@ -1,23 +1,24 @@
-import React, { ChangeEvent, FC, useState } from "react";
+import React, { type ChangeEvent, type FC, useState } from "react";
 import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { TextField } from "@mui/material";
 import s from "./EditableField.module.scss";
 import { Icon } from "common/components/icon/Icon";
 type IconSideType = "right" | "left";
-type EditableFieldType = {
+interface EditableFieldType {
   initialValue: string;
   callback: (newValue: string) => void;
-  children: JSX.Element;
+  children: React.ReactNode;
   iconSide?: IconSideType;
-};
+}
 
-export const EditableField: FC<EditableFieldType> = (props) => {
+export const EditableField: FC<EditableFieldType> = props => {
+  // todo: add handler to onBlur
   const { callback, initialValue, children, iconSide = "left" } = props;
   const [value, setValue] = useState(initialValue);
   const [isEdit, setEdit] = useState(false);
 
-  const callbackHandler = (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
+  const onSaveHandler = (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
     e.stopPropagation();
     setEdit(false);
     if (initialValue === value) {
@@ -25,6 +26,7 @@ export const EditableField: FC<EditableFieldType> = (props) => {
     }
     callback(value);
   };
+
   const changeValueHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.currentTarget.value);
   };
@@ -37,24 +39,20 @@ export const EditableField: FC<EditableFieldType> = (props) => {
   return (
     <div className={`${s.editableFieldBox} ${s[iconSide]}`}>
       {isEdit ? (
-        // Edit field
         <>
           <Icon>
-            <SaveOutlinedIcon onClick={callbackHandler} />
+            <SaveOutlinedIcon onClick={onSaveHandler} />
           </Icon>
           <TextField
             autoFocus={true}
-            autoComplete='off'
+            autoComplete="off"
             value={value}
             onChange={changeValueHandler}
-            onClick={(e) => {
+            onClick={e => {
               e.stopPropagation();
             }}
             size={"small"}
-            variant='standard'
-            InputProps={{
-              disableUnderline: true,
-            }}
+            variant="standard"
             className={s.editableInput}
           />
         </>

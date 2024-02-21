@@ -1,18 +1,18 @@
-export type LoginDataType = {
+export interface LoginDataType {
   email: string;
   password: string;
   captcha?: string;
-};
+}
 
-export type AuthResponseType = {
+export interface AuthResponseType {
   data: ResponseDataType;
   fieldErrors: string[];
   messages: string[];
   resultCode?: number;
-};
+}
 
-export type ResponseDataType = {
+export interface ResponseDataType {
   email: string;
   id: number;
   login: string;
-};
+}
