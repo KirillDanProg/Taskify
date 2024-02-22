@@ -1,50 +1,56 @@
 import { Todo } from "./todo/Todo";
-import { useLazyFetchTodoslistsQuery } from "../todoApi";
+import { useFetchTodoslistsQuery } from "../todoApi";
 import s from "./Todolists.module.scss";
 import { useSearchParams } from "react-router-dom";
 import { Reorder } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { type TodolistType } from "features/todos/types";
+import useWindowWidth from "common/hooks/useWindowWidth";
 
-export const Todolists = () => {
-  const [fetchTodolists] = useLazyFetchTodoslistsQuery();
-
-  let [items, setItems] = useState<TodolistType[]>([]);
-  const [searchParams] = useSearchParams();
-  const sort: string | null = searchParams.get("sort");
-  const align: string | null = searchParams.get("align");
-
-  items = [] as TodolistType[];
-  useEffect(() => {
-    void (async function () {
-      const { data: todolists = [] } = await fetchTodolists();
-      setItems(todolists);
-    })();
-  }, [fetchTodolists]);
-
-  const sortedTodolists = sort
-    ? items.toSorted((a: any, b: any) => {
+const sortTodolists = (items: TodolistType[], sort: string | null): TodolistType[] => {
+  return sort
+    ? [...items].sort((a: any, b: any) => {
         return sort === "asc" ? a.title.localeCompare(b.title) : b.title.localeCompare(a.title);
       })
     : items;
+};
 
+export const Todolists = () => {
+  const { data: todolists = [], isSuccess } = useFetchTodoslistsQuery();
+  let [items, setItems] = useState<TodolistType[]>([]);
+  const [searchParams] = useSearchParams();
+  const isMobile = useWindowWidth() < 640;
+  const sort: string | null = searchParams.get("sort");
+  const align: string | null = searchParams.get("align");
+
+  useEffect(() => {
+    setItems(todolists);
+  }, [isSuccess]);
+
+  const sortedTodolists = sortTodolists(items, sort);
   const mappedTodolists = sortedTodolists.map((todo: TodolistType) => {
     const { id, title } = todo;
-    return (
+    return isMobile ? (
       <Reorder.Item key={id} value={todo}>
-        <Todo key={id} title={title} id={id} isLoading={false} className={s.todolist} />
+        <Todo title={title} id={id} isLoading={false} className={s.todolist} />
       </Reorder.Item>
+    ) : (
+      <Todo key={id} title={title} id={id} isLoading={false} className={s.todolist} />
     );
   });
-  return (
-    <Reorder.Group
-      axis="y"
-      values={items}
-      onReorder={newOrder => {
-        setItems(newOrder);
-      }}
-    >
-      <div className={`${s.mainContentBox} ${align ? s[align] : ""}`}>{mappedTodolists}</div>
-    </Reorder.Group>
-  );
+
+  if (isMobile) {
+    return (
+      <Reorder.Group
+        axis="y"
+        values={items}
+        onReorder={newOrder => {
+          setItems(newOrder);
+        }}
+      >
+        <div className={`${s.mainContentBox} ${align ? s[align] : ""}`}>{mappedTodolists}</div>
+      </Reorder.Group>
+    );
+  }
+  return <div className={`${s.mainContentBox} ${align ? s[align] : ""}`}>{mappedTodolists}</div>;
 };
