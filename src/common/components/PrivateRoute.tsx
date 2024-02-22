@@ -1,12 +1,13 @@
 import { useMeQuery } from "features/auth/authApi";
-import { ReactNode } from "react";
+import React from "react";
+import { JSX } from "react";
 import { Navigate } from "react-router-dom";
 
 interface PrivateRouteProps {
-  children: ReactNode;
+  children: JSX.Element;
 }
 
-export const PrivateRoute = ({ children }: PrivateRouteProps) => {
+export const PrivateRoute = ({ children }: PrivateRouteProps): JSX.Element => {
   const { data } = useMeQuery();
   const isAuth = data?.id;
   if (!isAuth) {

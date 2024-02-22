@@ -1,5 +1,5 @@
 import { ThemeProvider } from "styled-components";
-import { useAppDispatch, useAppSelector } from "./hooks/reduxHooks";
+import { useAppDispatch, useAppSelector } from "./common/hooks/reduxHooks";
 import { useMeQuery } from "./features/auth/authApi";
 import { themes } from "./components/DarkMode/Themes";
 import { Preloader } from "./common/preloader/Preloader";

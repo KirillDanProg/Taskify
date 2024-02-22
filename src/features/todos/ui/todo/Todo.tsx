@@ -3,6 +3,7 @@ import { AddItemForm } from "components/AddItemForm/AddItemForm";
 import { EditableField } from "components/EditableField/EditableField";
 import { RemoveCircleOutline, ExpandMore } from "@mui/icons-material";
 import s from "./Todo.module.scss";
+import commonStyles from "common/styles/commonStyles.module.scss";
 import styled from "styled-components";
 import { Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
 import { useDeleteTodolistMutation, useUpdateTodoTitleMutation } from "../../todoApi";
@@ -65,7 +66,9 @@ export const Todo = ({ id, title, className }: Props) => {
         >
           <>
             <EditableField initialValue={title} callback={changeTodoTitleHandler}>
-              <h3>{title}</h3>
+              <h3 className={`${commonStyles.title} ${expended ? commonStyles.expended : ""}`}>
+                {title}
+              </h3>
             </EditableField>
             <div className={s.removeIcon}>
               <RemoveCircleOutline onClick={removeTodolistHandler} />

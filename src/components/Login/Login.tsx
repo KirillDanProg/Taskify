@@ -5,7 +5,7 @@ import s from "./Login.module.scss";
 import { useFormik } from "formik";
 import { TextField, Button, Link } from "@mui/material";
 import { useLazyGetCaptchaQuery, useLoginMutation, useMeQuery } from "../../features/auth/authApi";
-import { useAppSelector } from "hooks/reduxHooks";
+import { useAppSelector } from "common/hooks/reduxHooks";
 import { Navigate } from "react-router-dom";
 import { selectCaptchaUrl } from "features/auth/selectors";
 
