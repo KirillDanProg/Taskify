@@ -1,0 +1,9 @@
+.title {
+  overflow: hidden;
+  max-width: 200px;
+  text-overflow: ellipsis;
+}
+
+.expended {
+  line-break: anywhere;
+}
