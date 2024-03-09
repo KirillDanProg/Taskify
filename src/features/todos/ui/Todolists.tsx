@@ -3,9 +3,11 @@ import { useFetchTodoslistsQuery } from "../todoApi";
 import s from "./Todolists.module.scss";
 import { useSearchParams } from "react-router-dom";
 import { Reorder } from "framer-motion";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, memo, useState } from "react";
 import { type TodolistType } from "features/todos/types";
 import useWindowWidth from "common/hooks/useWindowWidth";
+import React from "react";
+import useDebugHook from "common/hooks/debugHook";
 
 const sortTodolists = (items: TodolistType[], sort: string | null): TodolistType[] => {
   return sort
@@ -15,9 +17,11 @@ const sortTodolists = (items: TodolistType[], sort: string | null): TodolistType
     : items;
 };
 
-export const Todolists = () => {
-  const { data: todolists = [], isSuccess } = useFetchTodoslistsQuery();
-  let [items, setItems] = useState<TodolistType[]>([]);
+type Props = {
+  todolists: TodolistType[];
+};
+export const Todolists = memo(({ todolists }: Props) => {
+  let [items, setItems] = useState<TodolistType[]>(todolists);
   const [searchParams] = useSearchParams();
   const isMobile = useWindowWidth() < 640;
   const sort: string | null = searchParams.get("sort");
@@ -25,7 +29,7 @@ export const Todolists = () => {
 
   useEffect(() => {
     setItems(todolists);
-  }, [isSuccess]);
+  }, [todolists]);
 
   const sortedTodolists = sortTodolists(items, sort);
   const mappedTodolists = sortedTodolists.map((todo: TodolistType) => {
@@ -52,5 +56,8 @@ export const Todolists = () => {
       </Reorder.Group>
     );
   }
+
   return <div className={`${s.mainContentBox} ${align ? s[align] : ""}`}>{mappedTodolists}</div>;
-};
+});
+
+Todolists.displayName = "Todolists";

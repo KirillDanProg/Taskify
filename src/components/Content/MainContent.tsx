@@ -1,8 +1,9 @@
 import styled from "styled-components";
 import { AddItemForm } from "../AddItemForm/AddItemForm";
 import { Todolists } from "../../features/todos/ui/Todolists";
-import { useAddTodolistMutation } from "../../features/todos/todoApi";
-import { Button } from "@mui/material";
+import { useAddTodolistMutation, useFetchTodoslistsQuery } from "../../features/todos/todoApi";
+import { useMemo, memo } from "react";
+import useDebugHook from "common/hooks/debugHook";
 
 const Wrap = styled.div`
   padding-top: 80px;
@@ -10,17 +11,19 @@ const Wrap = styled.div`
 `;
 
 export const MainContent = () => {
-  // todo: look data of request
   const [addTodo] = useAddTodolistMutation();
+  const { data = [] } = useFetchTodoslistsQuery();
 
   const addTodolistHandler = (title: string) => {
     addTodo(title);
   };
 
+  const memoizedTodolists = useMemo(() => data, [data]);
+
   return (
     <Wrap>
       <AddItemForm callback={addTodolistHandler} placeholder={"add todolist..."} />
-      <Todolists />
+      <Todolists todolists={memoizedTodolists} />
     </Wrap>
   );
 };
